@@ -1,1 +1,7 @@
+# use glob syntax.
+syntax: glob
+
+.DS_Store
+*~
 .idea/
+*.xml

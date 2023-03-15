@@ -61,8 +61,8 @@ body, html {
 <!-- Header with full-height image -->
 <header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
   <div class="w3-display-middle w3-text-white">
-    <span class="w3-jumbo w3-hide-small">Preoperative brain tumor segmentation and reporting</span><br>
-    <span class="w3-xxlarge w3-hide-large w3-hide-medium">Preoperative brain tumor segmentation and reporting</span><br>
+    <span class="w3-jumbo w3-hide-small">Pre- and post-operative brain tumor segmentation and reporting</span><br>
+    <span class="w3-xxlarge w3-hide-large w3-hide-medium">Pre- and post-operative brain tumor segmentation and reporting</span><br>
 <!--    <span class="w3-large">Stop wasting valuable time with projects that just isn't you.</span>-->
     <p><a href="#download" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Start now</a></p>
   </div>
@@ -76,20 +76,26 @@ body, html {
 <div class="w3-container" style="padding:128px 16px" id="about">
   <h3 class="w3-center">ABOUT Raidionics</h3>
   <p class="w3-center w3-large">Software for automatic segmentation and generation of standardized clinical reports of brain tumors
-    from preoperative magnetic resonance images (MRIs). Supported tumor types are: <i>glioblastomas</i>, <i>diffuse lower-grade gliomas</i>,
-    <i>meningiomas</i>, and <i>metastases</i>.</p>
+    from pre-operative magnetic resonance images (MRIs). The most common tumor types are supported: <i>glioblastomas</i>, <i>diffuse lower-grade gliomas</i>,
+    <i>meningiomas</i>, and <i>metastases</i>. In addition, post-operative rest tumor segmentation of glioblastomas and
+    surgical report computation (including extent-of-resection), is accessible. </p>
   <p class="w3-center w3-large"> A description of the different use-cases supported by Raidionics, along with Youtube presentation videos,
     are available on our <a href="https://github.com/dbouget/Raidionics/wiki"> <strong>wiki</strong></a>.</p>
   <div class="w3-row-padding w3-center" style="margin-top:64px">
     <div class="w3-quarter">
       <i class="fa fa-pencil-square w3-margin-bottom w3-jumbo w3-center"></i>
       <p class="w3-large">Segmentation</p>
-      <p> The different tumor types are automatically segmented using our own trained models based on deep learning. The tumor was defined as gadolinium-enhancing tissue including non-enhancing enclosed necrosis or cysts.</p>
+      <p> The different tumor types are automatically segmented using our own trained models based on deep learning.
+        The tumor was defined as gadolinium-enhancing tissue including non-enhancing enclosed necrosis or cysts.</p>
     </div>
     <div class="w3-quarter">
       <i class="fa fa-pie-chart w3-margin-bottom w3-jumbo"></i>
       <p class="w3-large">Reporting</p>
-      <p> The standardized clinical report (RADS) generated automatically includes the following tumor characteristics, all computed in the MNI reference space: volume, multifocality, laterality, location w.r.t. cortical structures (MNI, Harvard-Oxford, and Schaefer atlases), and location w.r.t. subcortical structures (BCB atlas).</p>
+      <p> The standardized clinical report (RADS) generated automatically includes the following tumor characteristics,
+        all computed in the MNI reference space: volume, multifocality, laterality, location w.r.t. cortical structures
+        (MNI, Harvard-Oxford, and Schaefer atlases), and location w.r.t. subcortical structures (BCB atlas). <br>
+        The standardized surgical report includes an automatic extent-of-resection value.
+      </p>
     </div>
     <div class="w3-quarter">
       <i class="fa fa-book w3-margin-bottom w3-jumbo"></i>
@@ -104,13 +110,13 @@ body, html {
     <div class="w3-quarter">
       <i class="fa fa-hospital-o w3-margin-bottom w3-jumbo"></i>
       <p class="w3-large">Partners</p>
-      <p> All methods have been developed using MRI data collected from a large group of hospitals:
+      <p> All methods have been developed using MR scans collected from a large group of hospitals:
         Northwest Clinics (Alkmaar), Amsterdam University Medical Centers,
         University Medical Center Groningen, Medical Center Haaglanden (The Hague),
         Humanitas Research Hospital (Milano), Hôpital Lariboisière (Paris),
         University of California San Francisco Medical Center; Medical Center Slotervaart (Amsterdam),
         St Elisabeth Hospital (Tilburg); University Medical Center Utrecht, Medical University Vienna,
-        Isala hospital (Zwolle), St. Olavs hospital (Trondheim); Sahlgrenska University Hospital (Gothenburg),
+        Isala hospital (Zwolle), St. Olavs hospital (Trondheim), Sahlgrenska University Hospital (Gothenburg),
         Brigham and Women's Hospital (Boston), and Oslo University Hospital. </p>
     </div>
   </div>
@@ -119,51 +125,76 @@ body, html {
 <!-- Team Section -->
 <div class="w3-container w3-dark-grey" style="padding:128px 16px" id="team">
   <h3 class="w3-center">THE TEAM</h3>
-  <p class="w3-center w3-large">Active participants</p>
+  <p class="w3-center w3-large">Core participants</p>
   <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
-    <div class="w3-col l3 m6 w3-margin-bottom">
+    <div class="w3-col l3 m6 w3-margin-bottom" style="margin:auto">
       <div class="w3-card">
-<!--        <img src="/w3images/team2.jpg" alt="John" style="width:100%">-->
+        <img src="/assets/photo-david.png" alt="David" style="width:50%; margin-left:23.5%">
         <div class="w3-container w3-light-grey">
           <h3>David Bouget</h3>
           <p class="w3-opacity">Lead developer</p>
-          <p>.</p>
+          <p>david.bouget@sintef.no</p>
 <!--          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>-->
         </div>
       </div>
     </div>
     <div class="w3-col l3 m6 w3-margin-bottom">
       <div class="w3-card">
-<!--        <img src="/w3images/team1.jpg" alt="Jane" style="width:100%">-->
+        <img src="/assets/photo-andre.png" alt="Andre" style="width:50%; margin-left:23.5%">
         <div class="w3-container w3-light-grey">
           <h3>André Pedersen</h3>
           <p class="w3-opacity">Deployment engineer</p>
-          <p>.</p>
+          <p>andre.pedersen@sintef.no</p>
 <!--          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>-->
         </div>
       </div>
     </div>
     <div class="w3-col l3 m6 w3-margin-bottom">
       <div class="w3-card">
-<!--        <img src="/w3images/team3.jpg" alt="Mike" style="width:100%">-->
+        <img src="/assets/photo-demah.png" alt="Demah" style="width:50%; margin-left:23.5%">
         <div class="w3-container w3-light-grey">
           <h3>Demah Alsinan</h3>
           <p class="w3-opacity">Designer</p>
-          <p>.</p>
+          <p>demah.alsinan@sintef.no</p>
 <!--          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>-->
         </div>
       </div>
     </div>
     <div class="w3-col l3 m6 w3-margin-bottom">
       <div class="w3-card">
-<!--        <img src="/w3images/team4.jpg" alt="Dan" style="width:100%">-->
+        <img src="/assets/photo-valeria.png" alt="Valeria" style="width:50%; margin-left:23.5%">
         <div class="w3-container w3-light-grey">
           <h3>Valeria Gaitan</h3>
           <p class="w3-opacity">Designer</p>
-          <p>.</p>
+          <p>valeria.gaitan@sintef.no</p>
 <!--          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>-->
         </div>
       </div>
+    </div>
+  </div>
+  <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+    <div class="w3-col l3 m6 w3-margin-bottom" style="margin:auto">
+      <div class="w3-card">
+        <img src="/assets/photo-ingerid.png" alt="Ingerid" style="width:50%; margin-left:23.5%">
+        <div class="w3-container w3-light-grey">
+          <h3>Ingerid Reinertsen</h3>
+          <p class="w3-opacity">Project manager</p>
+          <p>ingerid.reinertsen@sintef.no</p>
+<!--          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>-->
+        </div>
+      </div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-card">
+        <img src="/assets/photo-ole.png" alt="Ole" style="width:50%; margin-left:23.5%">
+        <div class="w3-container w3-light-grey">
+          <h3>Ole Solheim</h3>
+          <p class="w3-opacity">Neurosurgeon</p>
+          <p>ole.solheim@ntnu.no</p>
+<!--          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>-->
+        </div>
+      </div>
+    </div>
     </div>
   </div>
 </div>
@@ -171,22 +202,23 @@ body, html {
 <!-- Download Section -->
 <div class="w3-container" style="padding:128px 16px" id="download">
   <h3 class="w3-center">Downloads</h3>
-  <p class="w3-center w3-large">Latest stable release (1.1.0)</p>
+  <p class="w3-center w3-large">Latest release (1.2.0-beta)</p>
   <div class="w3-row-padding w3-center" style="margin-top:64px">
     <div class="w3-third">
       <i class="fa fa-windows w3-margin-bottom w3-jumbo w3-center"></i>
       <p class="w3-large">Windows</p>
-      <i><a href="https://github.com/dbouget/Raidionics/releases/download/v1.1.0/Raidionics-1.1.0-win.exe">Download for <strong>Windows</strong></a></i>
+      <i><a href="https://github.com/dbouget/Raidionics/releases/download/v1.2.0-beta/Raidionics-1.2.0-beta-win.exe">Download for <strong>Windows</strong></a></i>
     </div>
     <div class="w3-third">
       <i class="fa fa-apple w3-margin-bottom w3-jumbo"></i>
-      <p class="w3-large">MacOs</p>
-      <i><a href="https://github.com/dbouget/Raidionics/releases/download/v1.1.0/Raidionics-1.1.0-macOS.pkg">Download for <strong>MacOS</strong></a></i>
+      <p class="w3-large">macOS</p>
+      <i><a href="https://github.com/dbouget/Raidionics/releases/download/v1.2.0-beta/Raidionics-1.2.0-beta-macOS.pkg">Download for <strong>macOS</strong></a></i> <br>
+      <i><a href="https://github.com/dbouget/Raidionics/releases/download/v1.2.0-beta/Raidionics-1.2.0-beta-macOS_arm.pkg">Download for <strong>macOS ARM (M1 chip)</strong></a></i>
     </div>
     <div class="w3-third">
       <i class="fa fa-linux w3-margin-bottom w3-jumbo"></i>
       <p class="w3-large">Linux</p>
-      <i><a href="https://github.com/dbouget/Raidionics/releases/download/v1.1.0/Raidionics-1.1.0-ubuntu.deb">Download for <strong>Linux</strong></a></i>
+      <i><a href="https://github.com/dbouget/Raidionics/releases/download/v1.2.0-beta/Raidionics-1.2.0-beta-ubuntu.deb">Download for <strong>Linux</strong></a></i>
     </div>
   </div>
   <p class="fa fa-warning w3-left w3-large" style="color:red;"> Disclaimer: Raidionics has problems running on some specific CPU (cf. <a href="https://github.com/dbouget/Raidionics/wiki/Frequently-Asked-Questions-(FAQ)">FAQ</a>).</p>
@@ -204,7 +236,7 @@ body, html {
 <!-- Contact Section -->
 <div class="w3-container w3-light-grey" style="padding:128px 16px" id="contact">
   <h3 class="w3-center">CONTACT</h3>
-  <p class="w3-center w3-large">Lets get in touch. Send us a message:</p>
+  <p class="w3-center w3-large">Lets get in touch. Feel free to contact us for collaboration or data sharing.</p>
   <div style="margin-top:48px">
     <p><i class="fa fa-map-marker fa-fw w3-xxlarge w3-margin-right"></i> Trondheim, Norway</p>
     <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: david.bouget@sintef.no</p>
