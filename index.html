@@ -15,17 +15,47 @@ body, html {
   line-height: 1.8;
 }
 
+.title {
+  line-height: 1.0;
+  color: white;
+  text-align: center;
+  margin: auto;
+  padding-top: 350px;
+}
+
 /* Full height image header */
 .bgimg-1 {
   background-position: center;
   background-size: cover;
+  background-image: url("/assets/raidionics-interface-example.png");
+  min-height: 100%;
+}
+
+.pipeline {
+  background-image: url("/assets/raidionics-pipeline.png");
+  background-size: 100%;
+  object-fit: contain;
+  width: 800px;
+}
+
+/* Raidionics gif */
+.raidionics {
   background-image: url("/assets/raidionics_preview.gif");
-  min-height: 90%;
+  background-size: 100%;
+  object-fit: contain;
+}
+
+/* Raidionics 3D Slicer gif */
+.raidionics-slicer {
+  background-image: url("/assets/raidionics-slicer-rads.gif");
+  background-size: 100%;
+  object-fit: contain;
 }
 
 .w3-bar .w3-button {
   padding: 16px;
 }
+
 </style>
 </head>
 <body>
@@ -38,6 +68,7 @@ body, html {
     <div class="w3-right w3-hide-small">
       <a href="#about" class="w3-bar-item w3-button"><i class="fa fa-th"></i> ABOUT</a>
       <a href="#team" class="w3-bar-item w3-button"><i class="fa fa-user"></i> TEAM</a>
+      <a href="#publications" class="w3-bar-item w3-button"><i class="fa fa-book"></i> PUBLICATIONS</a>
       <a href="#download" class="w3-bar-item w3-button"><i class="fa fa-cloud-download" aria-hidden="true"></i>DOWNLOAD</a>
       <a href="#contact" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> CONTACT</a>
     </div>
@@ -54,77 +85,72 @@ body, html {
   <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
   <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
   <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">TEAM</a>
+  <a href="#publications" onclick="w3_close()" class="w3-bar-item w3-button">PUBLICATIONS</a>
   <a href="#download" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
   <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">CONTACT</a>
 </nav>
 
 <!-- Header with full-height image -->
 <header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
-  <div class="w3-display-middle w3-text-white">
-    <span class="w3-jumbo w3-hide-small">Pre- and post-operative brain tumor segmentation and reporting</span><br>
-    <span class="w3-xxlarge w3-hide-large w3-hide-medium">Pre- and post-operative brain tumor segmentation and reporting</span><br>
+  <div class="title">
+    <span class="w3-xxxlarge">Pre- and post-operative central nervous <br> system tumor segmentation <br> and standardized reporting</span><br>
+    <span class="w3-xlarge"><br> A software platform for the analysis and visualization of neurological MR scans</span><br>
 <!--    <span class="w3-large">Stop wasting valuable time with projects that just isn't you.</span>-->
-    <p><a href="#download" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Start now</a></p>
+<!--    <p><a href="#download" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Start now</a></p>-->
   </div>
-<!--  <div class="w3-display-bottomleft w3-text-grey w3-large" style="padding:0px 30px">-->
-<!--    <i class="fa fa-globe w3-hover-opacity" href="https://www.sintef.no/sintef-teknologi-og-samfunn/avdelinger/helse/forskningsgrupper/medtek/"></i>-->
-<!--    <i class="fa fa-github w3-hover-opacity"></i>-->
-<!--  </div>-->
+  <!-- About Section -->
+  <div class="w3-container" style="padding:20px 16px" id="start">
+    <div class="w3-row-padding w3-center" style="margin-top:30px">
+      <div class="w3-quarter">
+        <p></p>
+      </div>
+      <div class="w3-quarter">
+        <p><a href="#download" class="w3-button w3-white w3-padding-large w3-large w3-opacity w3-hover-opacity-off">Try now</a></p>
+      </div>
+      <div class="w3-quarter" style="margin-left:-50px">
+        <p><a href="https://github.com/raidionics" class="w3-button w3-white w3-padding-large w3-large w3-opacity w3-hover-opacity-off">View on GitHub</a></p>
+      </div>
+    </div>
+  </div>
 </header>
 
 <!-- About Section -->
 <div class="w3-container" style="padding:128px 16px" id="about">
-  <h3 class="w3-center">ABOUT Raidionics</h3>
-  <p class="w3-center w3-large">Software for automatic segmentation and generation of standardized clinical reports of brain tumors
-    from pre-operative magnetic resonance images (MRIs). The most common tumor types are supported: <i>glioblastomas</i>, <i>diffuse lower-grade gliomas</i>,
-    <i>meningiomas</i>, and <i>metastases</i>. In addition, post-operative rest tumor segmentation of glioblastomas and
-    surgical report computation (including extent-of-resection), is accessible. </p>
-  <p class="w3-center w3-large"> A description of the different use-cases supported by Raidionics, along with Youtube presentation videos,
-    are available on our <a href="https://github.com/dbouget/Raidionics/wiki"> <strong>wiki</strong></a>.</p>
-  <div class="w3-row-padding w3-center" style="margin-top:64px">
-    <div class="w3-quarter">
-      <i class="fa fa-pencil-square w3-margin-bottom w3-jumbo w3-center"></i>
-      <p class="w3-large">Segmentation</p>
-      <p> The different tumor types are automatically segmented using our own trained models based on deep learning.
-        The tumor was defined as gadolinium-enhancing tissue including non-enhancing enclosed necrosis or cysts.</p>
+  <h1 class="w3-center">ABOUT Raidionics</h1>
+  <h3 class="w3-center">A description of the different use-cases supported by Raidionics, along with Youtube presentation videos,
+    are available on our <a href="https://github.com/dbouget/Raidionics/wiki"> <strong>wiki</strong></a>.</h3>
+    <div class="w3-half">
+        <p class="pipeline"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p><br>
     </div>
-    <div class="w3-quarter">
-      <i class="fa fa-pie-chart w3-margin-bottom w3-jumbo"></i>
-      <p class="w3-large">Reporting</p>
-      <p> The standardized clinical report (RADS) generated automatically includes the following tumor characteristics,
+    <div class="w3-half">
+      <span class="fa fa-pencil-square w3-xxlarge w3-center"> Segmentation</span>
+      <p class="w3-large"> The most common central nervous system tumor types can be segmented pre-operatively: <i>glioblastomas</i>, <i>diffuse lower-grade gliomas</i>,
+    <i>meningiomas</i>, and <i>metastases</i>. Early post-operative segmentation is limited to the glioblastoma subtype.</p>
+      <p class="w3-large"> All models have been trained using patient data from our partnered hospitals, using the AGU-Net architecture (more details available in the <a href="#publications">Publications</a> section).</p>
+    </div>
+    <div class="w3-half">
+      <span class="fa fa-pie-chart w3-xxlarge w3-center"> Standardized reporting (RADS) </span>
+      <p class="w3-large"> Pre-operatively, the standardized reports include the following tumor characteristics,
         all computed in the MNI reference space: volume, multifocality, laterality, location w.r.t. cortical structures
-        (MNI, Harvard-Oxford, and Schaefer atlases), and location w.r.t. subcortical structures (BCB atlas). <br>
-        The standardized surgical report includes an automatic extent-of-resection value.
-      </p>
+        (MNI, Harvard-Oxford, and Schaefer atlases), and location w.r.t. subcortical structures (BCB atlas).
+        The computational pipeline is illustrated to the left.</p>
+      <p class="w3-large"> Post-operatively, the rest tumor volume and extent-of-resection are automatically computed.</p>
     </div>
-    <div class="w3-quarter">
-      <i class="fa fa-book w3-margin-bottom w3-jumbo"></i>
-      <p class="w3-large">Research</p>
-      <p> The software was introduced in this <a href="https://www.frontiersin.org/articles/10.3389/fneur.2022.932219/full">article</a>
-        published in <i>Frontiers of Neurology</i>. More information regarding the content of Raidionics has been published
-        regarding the <a href="https://www.frontiersin.org/articles/10.3389/fradi.2021.711514/full">deep learning aspect</a>,
-        performances of the <a href="https://www.mdpi.com/2072-6694/13/18/4674">segmentation models</a>,
-        validation of the <a href="https://www.mdpi.com/2072-6694/13/12/2854">standardized reporting</a>.
-      </p>
-    </div>
-    <div class="w3-quarter">
-      <i class="fa fa-hospital-o w3-margin-bottom w3-jumbo"></i>
-      <p class="w3-large">Partners</p>
-      <p> All methods have been developed using MR scans collected from a large group of hospitals:
-        Northwest Clinics (Alkmaar), Amsterdam University Medical Centers,
-        University Medical Center Groningen, Medical Center Haaglanden (The Hague),
-        Humanitas Research Hospital (Milano), Hôpital Lariboisière (Paris),
-        University of California San Francisco Medical Center; Medical Center Slotervaart (Amsterdam),
-        St Elisabeth Hospital (Tilburg); University Medical Center Utrecht, Medical University Vienna,
+    <div class="w3-half">
+      <span class="fa fa-hospital-o w3-xxlarge w3-center"> Hospital partners </span>
+      <p class="w3-medium"> Northwest Clinics (Alkmaar), Amsterdam University Medical Centers, University Medical Center Groningen,
+        Medical Center Haaglanden (The Hague), Humanitas Research Hospital (Milano), Hôpital Lariboisière (Paris),
+        University of California San Francisco Medical Center, Medical Center Slotervaart (Amsterdam),
+        St Elisabeth Hospital (Tilburg), University Medical Center Utrecht, Medical University Vienna,
         Isala hospital (Zwolle), St. Olavs hospital (Trondheim), Sahlgrenska University Hospital (Gothenburg),
-        Brigham and Women's Hospital (Boston), and Oslo University Hospital. </p>
+        Brigham and Women's Hospital (Boston), and Oslo University Hospital.</p>
     </div>
   </div>
 </div>
 
 <!-- Team Section -->
 <div class="w3-container w3-dark-grey" style="padding:128px 16px" id="team">
-  <h3 class="w3-center">THE TEAM</h3>
+  <h1 class="w3-center">THE TEAM</h1>
   <p class="w3-center w3-large">Core participants</p>
   <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
     <div class="w3-col l3 m6 w3-margin-bottom" style="margin:auto">
@@ -201,7 +227,7 @@ body, html {
 
 <!-- Download Section -->
 <div class="w3-container" style="padding:128px 16px" id="download">
-  <h3 class="w3-center">Downloads</h3>
+  <h1 class="w3-center">Downloads</h1>
   <p class="w3-center w3-large">Latest release (1.2.0-beta)</p>
   <div class="w3-row-padding w3-center" style="margin-top:64px">
     <div class="w3-third">
@@ -224,12 +250,46 @@ body, html {
   <p class="fa fa-warning w3-left w3-large" style="color:red;"> Disclaimer: Raidionics has problems running on some specific CPU (cf. <a href="https://github.com/dbouget/Raidionics/wiki/Frequently-Asked-Questions-(FAQ)">FAQ</a>).</p>
 </div>
 
+<!-- Examples Section -->
+<div class="w3-container w3-dark-grey" style="padding:128px 16px" id="examples">
+  <h1 class="w3-center">Examples</h1>
+  <div class="w3-center" style="margin-top:64px">
+    <div class="w3-half">
+      <span class="w3-xlarge"><br> Stand-alone Raidionics </span>
+      <p class="raidionics"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+      <p><a href="https://github.com/raidionics/Raidionics" class="w3-button w3-white w3-padding-large w3-large w3-opacity w3-hover-opacity-off">View on GitHub</a></p>
+    </div>
+    <div class="w3-half" style="padding-left: 20px">
+      <span class="w3-xlarge"><br> 3D Slicer plugin </span><br><br>
+      <p class="raidionics-slicer" ><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p><br>
+      <p><a href="https://github.com/raidionics/Raidionics-Slicer" class="w3-button w3-white w3-padding-large w3-large w3-opacity w3-hover-opacity-off">View on GitHub</a></p>
+    </div>
+  </div>
+</div>
+
 <!-- Modal for full size images on click-->
 <div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
   <span class="w3-button w3-xxlarge w3-black w3-padding-large w3-display-topright" title="Close Modal Image">×</span>
   <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
     <img id="img01" class="w3-image">
     <p id="caption" class="w3-opacity w3-large"></p>
+  </div>
+</div>
+
+<!-- Publications Section -->
+<div class="w3-container" style="padding:128px 16px" id="publications">
+  <h1 class="w3-center">Publications</h1>
+  <h2 class="w3-center w3-large">Raidionics research</h2>
+  <div class="w3-container">
+    <p><a href="https://www.frontiersin.org/articles/10.3389/fneur.2022.932219/full" class="w3-large"> * <i><b>Preoperative brain tumor imaging: models and software for segmentation and standardized reporting.</b></i>  Bouget, D., Pedersen, A., Jakola, A. S., Kavouridis, V., Emblem, K. E., Eijgelaar, R. S., ... & Reinertsen, I. Frontiers in neurology, 1500, 2022.</a></p>
+    <p><a href="https://www.frontiersin.org/articles/10.3389/fradi.2021.711514/full" class="w3-large"> * <i><b>Meningioma segmentation in T1-weighted MRI leveraging global context and attention mechanisms.</b></i>  Bouget, D., Pedersen, A., Hosainey, S. A. M., Solheim, O., & Reinertsen, I.. Frontiers in Radiology, 1, 711514, 2021.</a></p>
+    <p><a href="https://www.mdpi.com/2072-6694/13/18/4674" class="w3-large"> * <i><b>Glioblastoma surgery imaging–reporting and data system: Validation and performance of the automated segmentation task.</b></i>  Bouget, D., Eijgelaar, R. S., Pedersen, A., Kommers, I., Ardon, H., Barkhof, F., ... & Solheim, O.. Cancers, 13(18), 4674, 2021.</a></p>
+    <p><a href="https://www.mdpi.com/2072-6694/13/12/2854" class="w3-large"> * <i><b>Glioblastoma surgery imaging—reporting and data system: Standardized reporting of tumor volume, location, and resectability based on automated segmentations.</b></i>  Kommers, I., Bouget, D., Pedersen, A., Eijgelaar, R. S., Ardon, H., Barkhof, F., ... & De Witt Hamer, P. C.. Cancers, 13(12), 2854, 2021.</a></p>
+    <p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7995198/" class="w3-large"> * <i><b>Fast meningioma segmentation in T1-weighted magnetic resonance imaging volumes using a lightweight 3D deep learning architecture.</b></i>  Bouget, D., Pedersen, A., Hosainey, S. A. M., Vanel, J., Solheim, O., & Reinertsen, I. . Journal of Medical Imaging, 8(2), 024002-024002, 2021.</a></p>
+  </div>
+  <h2 class="w3-center w3-large">Related research</h2>
+  <div class="w3-container">
+    <p><a href="https://link.springer.com/article/10.1007/s00701-022-05126-9" class="w3-large"> * <i><b>Pretreatment patient-reported cognitive function in patients with diffuse glioma.</b></i>  Schei, S., Solheim, O., Salvesen, Ø., Hjermstad, M. J., Bouget, D., & Sagberg, L. M.. Acta Neurochirurgica, 164(3), 703-711, 2022.</a></p>
   </div>
 </div>
 
@@ -240,7 +300,7 @@ body, html {
   <div style="margin-top:48px">
     <p><i class="fa fa-map-marker fa-fw w3-xxlarge w3-margin-right"></i> Trondheim, Norway</p>
     <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: david.bouget@sintef.no</p>
-    <p><i class="fa fa-github fa-fw w3-xxlarge w3-margin-right"> </i> <a href="https://github.com/dbouget/Raidionics">https://github.com/dbouget/Raidionics</a></p>
+    <p><i class="fa fa-github fa-fw w3-xxlarge w3-margin-right"> </i> <a href="https://github.com/raidionics">https://github.com/raidionics</a></p>
     <p><i class="fa fa-exclamation fa-fw w3-xxlarge w3-margin-right"> </i> <a href="https://github.com/dbouget/Raidionics/issues">Report issues or request features</a></p>
     <br>
   </div>
@@ -250,8 +310,8 @@ body, html {
 <footer class="w3-center w3-black w3-padding-64">
   <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
   <div class="w3-xlarge w3-section">
-    <i><a href="https://www.sintef.no/en/digital/topics/health-research/" class="fa fa-globe w3-hover-opacity" style="text-decoration:none;"></a></i>
-    <i><a href="https://github.com/dbouget/Raidionics" class="fa fa-github w3-hover-opacity" style="text-decoration:none;"></a></i>
+    <i><a href="https://www.sintef.no/en/digital/departments-new/department-of-health-research/" class="fa fa-globe w3-hover-opacity" style="text-decoration:none;"></a></i>
+    <i><a href="https://github.com/raidionics" class="fa fa-github w3-hover-opacity" style="text-decoration:none;"></a></i>
   </div>
   <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
 </footer>
