@@ -1,0 +1,34 @@
+name: website-screenshot
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+        fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+
+    - name: Screenshot Website
+      uses: swinton/screenshot-website@v1.x
+      with:
+        source: https://raidionics.github.io/
+        destination: screenshot.png
+
+    - name: Update screenshot in release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_name: raidionics/raidionics.github.io
+        repo_token: ${{ secrets.CI_TOKEN }}
+        file: ${{github.workspace}}/screenshot.png
+        asset_name: screenshot.png
+        file_glob: true
+        tag: screenshot-website
+        overwrite: true
