@@ -21,6 +21,9 @@ jobs:
       with:
         source: https://raidionics.github.io/
         destination: screenshot.png
+    
+    - name: Debug
+      run: ls -haltr
 
     - name: Update screenshot in release
       uses: svenstaro/upload-release-action@v2
