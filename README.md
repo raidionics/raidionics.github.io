@@ -2,6 +2,6 @@
 
 [![Website raidionics.github.io](https://img.shields.io/website-up-down-green-red/https/raidionics.github.io.svg)](https://raidionics.github.io/)
 
-<img src="https://github.com/andreped/raidionics.github.io/releases/download/screenshot-website/screenshot.png" width="70%" height="70%">
+<img src="https://github.com/andreped/raidionics.github.io/releases/download/screenshot-website/screenshot.png" width="100%" height="100%">
 
 Automatically generated snapshot of the current state of the website (created after a successful commit and deployment).
