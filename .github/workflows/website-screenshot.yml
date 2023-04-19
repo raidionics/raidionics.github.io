@@ -33,7 +33,7 @@ jobs:
         branch: master
         event: push
         name: screenshot
-        repo: andreped/raidionics.github.io
+        repo: raidionics/raidionics.github.io
     
     - name: Debug
       run: ls -haltr
@@ -41,7 +41,7 @@ jobs:
     - name: Update screenshot in release
       uses: svenstaro/upload-release-action@v2
       with:
-        repo_name: andreped/raidionics.github.io
+        repo_name: raidionics/raidionics.github.io
         repo_token: ${{ secrets.CI_TOKEN }}
         file: ${{github.workspace}}/screenshot.png
         asset_name: screenshot.png
