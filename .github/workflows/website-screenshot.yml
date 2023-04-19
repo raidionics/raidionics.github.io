@@ -2,9 +2,10 @@ name: website-screenshot
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - "*"
   pull_request:
-    branches: [ master ]
+    branches:
   workflow_dispatch:
 
 jobs:
@@ -16,11 +17,26 @@ jobs:
         persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
         fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
 
-    - name: Screenshot Website
+    - name: Screenshot website
       uses: swinton/screenshot-website@v1.x
       with:
         source: https://raidionics.github.io/
         destination: screenshot.png
+    
+    - name: Download artifact
+      uses: dawidd6/action-download-artifact@v2
+      continue-on-error: false
+      with:
+        github_token: ${{secrets.CI_TOKEN}}
+        workflow: website-screenshot.yml
+        workflow_conclusion: ""
+        branch: master
+        event: push
+        name: screenshot
+        repo: raidionics/raidionics.github.io
+    
+    - name: Debug
+      run: ls -haltr
 
     - name: Update screenshot in release
       uses: svenstaro/upload-release-action@v2
