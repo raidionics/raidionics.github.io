@@ -23,6 +23,18 @@ jobs:
         source: https://raidionics.github.io/
         destination: screenshot.png
     
+    - name: Download artifact
+      uses: dawidd6/action-download-artifact@v2
+      continue-on-error: false
+      with:
+        github_token: ${{secrets.CI_TOKEN}}
+        workflow: website-screenshot.yml
+        workflow_conclusion: success
+        branch: master
+        event: push
+        name: screenshot
+        repo: raidionics/raidionics.github.io
+    
     - name: Debug
       run: ls -haltr
 
