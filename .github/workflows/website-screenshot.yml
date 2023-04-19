@@ -21,30 +21,6 @@ jobs:
         source: https://raidionics.github.io/
         destination: screenshot.png
 
-    - name: Download artifact
-      uses: dawidd6/action-download-artifact@v2
-      continue-on-error: false
-      with:
-        github_token: ${{secrets.GITHUB_TOKEN}}
-        workflow: website-screenshot.yml
-        workflow_conclusion: success
-        branch: master
-        event: push
-        name: screenshot
-        repo: raidionics/raidionics.github.io
-
-    - name: Commit files
-      run: |
-        git add screenshot.png
-        git commit -m "Update snapshot of website [skip ci]" -a
-
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        force: false
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.master }}
-
     - name: Update screenshot in release
       uses: svenstaro/upload-release-action@v2
       with:
