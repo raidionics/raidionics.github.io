@@ -2,10 +2,9 @@ name: website-screenshot
 
 on:
   push:
-    branches:
-      - "*"
+    branches: [ master ]
   pull_request:
-    branches:
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:
@@ -34,9 +33,7 @@ jobs:
         event: push
         name: screenshot
         repo: raidionics/raidionics.github.io
-    
-    - name: Debug
-      run: ls -haltr
+        search_artifacts: true
 
     - name: Update screenshot in release
       uses: svenstaro/upload-release-action@v2
