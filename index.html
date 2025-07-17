@@ -125,17 +125,17 @@ body, html {
     </div>
     <div class="w3-half">
       <span class="fa fa-pencil-square w3-xxlarge w3-center"> Segmentation</span>
-      <p class="w3-large"> The most common central nervous system tumor types can be segmented pre-operatively: <i>glioblastomas</i>, <i>diffuse lower-grade gliomas</i>,
-    <i>meningiomas</i>, and <i>metastases</i>. Early post-operative segmentation is limited to the glioblastoma subtype.</p>
-      <p class="w3-large"> All models have been trained using patient data from our partnered hospitals, using the AGU-Net architecture (more details available in the <a href="#publications">Publications</a> section).</p>
+      <p class="w3-large"> The most common central nervous system tumor types can be segmented pre-/post-operatively: <i>glioblastomas</i>, <i>diffuse lower-grade gliomas</i>,
+    <i>meningiomas</i>, and <i>metastases</i>. Common structures are available for segmentation such as enhancing tissue, non-enhancing tumor core, tumor core, FLAIR hyperintensity, and resection cavity</p>
+      <p class="w3-large"> All models have been trained locally using patient data from our partnered hospitals, and using the Attention U-Net architecture (more details available in the <a href="#publications">Publications</a> section).</p>
     </div>
     <div class="w3-half">
       <span class="fa fa-pie-chart w3-xxlarge w3-center"> Standardized reporting (RADS) </span>
-      <p class="w3-large"> Pre-operatively, the standardized reports include the following tumor characteristics,
-        all computed in the MNI reference space: volume, multifocality, laterality, location w.r.t. cortical structures
+      <p class="w3-large"> Features computation, the standardized reports include the following tumor characteristics,
+        all computed in the MNI reference space: volumes, diameters, multifocality, laterality, location w.r.t. cortical structures
         (MNI, Harvard-Oxford, and Schaefer atlases), and location w.r.t. subcortical structures (BCB atlas).
         The computational pipeline is illustrated to the left.</p>
-      <p class="w3-large"> Post-operatively, the rest tumor volume and extent-of-resection are automatically computed.</p>
+      <p class="w3-large"> Surgical reporting: brain and tumor volumes pre-/post-operatively are reported, including extent of resection and surgical grading following the RANO2.0 guidelines.</p>
     </div>
     <div class="w3-half">
       <span class="fa fa-hospital-o w3-xxlarge w3-center"> Hospital partners </span>
@@ -229,26 +229,27 @@ body, html {
 <!-- Download Section -->
 <div class="w3-container" style="padding:128px 16px" id="download">
   <h1 class="w3-center">Downloads</h1>
-  <p class="w3-center w3-large">Latest release (1.2.2)</p>
+  <p class="w3-center w3-large">Latest release (1.3.1)</p>
   <div class="w3-row-padding w3-center" style="margin-top:64px">
     <div class="w3-third">
       <i class="fa fa-windows w3-margin-bottom w3-jumbo w3-center"></i>
       <p class="w3-large">Windows</p>
-      <i><a href="https://github.com/raidionics/Raidionics/releases/download/v1.2.2/Raidionics-1.2.2-win.exe">Download for <strong>Windows</strong></a></i>
+      <i><a href="https://github.com/raidionics/Raidionics/releases/download/v1.3.1/Raidionics-1.3.1-win.exe">Download for <strong>Windows</strong></a></i>
     </div>
     <div class="w3-third">
       <i class="fa fa-apple w3-margin-bottom w3-jumbo"></i>
       <p class="w3-large">macOS</p>
-      <i><a href="https://github.com/raidionics/Raidionics/releases/download/v1.2.2/Raidionics-1.2.2-macOS-x86_64.pkg">Download for <strong>macOS</strong></a></i> <br>
-      <i><a href="https://github.com/raidionics/Raidionics/releases/download/v1.2.2/Raidionics-1.2.2-macOS-arm64.pkg">Download for <strong>macOS ARM (M1 chip)</strong></a></i>
+      <i><a href="https://github.com/raidionics/Raidionics/releases/download/v1.3.1/Raidionics-1.3.1-macOS-14-15-arm64.pkg">Download for <strong>macOS (ARM processor)</strong></a></i> <br>
+      <i><a href="https://github.com/raidionics/Raidionics/releases/download/v1.3.1/Raidionics-1.3.1-macOS-13-arm64.pkg">Download for <strong>macOS-13 (ARM processor)</strong></a></i> <br>
+      <i><a href="https://github.com/raidionics/Raidionics/releases/download/v1.3.1/Raidionics-1.3.1-macOS-x86_64.pkg">Download for <strong>macOS (Intel processor)</strong></a></i>
     </div>
     <div class="w3-third">
       <i class="fa fa-linux w3-margin-bottom w3-jumbo"></i>
       <p class="w3-large">Linux</p>
-      <i><a href="https://github.com/raidionics/Raidionics/releases/download/v1.2.2/Raidionics-1.2.2-ubuntu.deb">Download for <strong>Linux</strong></a></i>
+      <i><a href="https://github.com/raidionics/Raidionics/releases/download/v1.3.1/Raidionics-1.3.1-ubuntu.deb">Download for <strong>Linux</strong></a></i>
     </div>
   </div>
-  <p class="fa fa-warning w3-left w3-large" style="color:red;"> Disclaimer: Raidionics has problems running on some specific CPU (cf. <a href="https://github.com/raidionics/Raidionics/wiki/Frequently-Asked-Questions-(FAQ)">FAQ</a>).</p>
+  <p class="fa fa-warning w3-left w3-large" style="color:red;"> Disclaimer: For macOS users, look carefully to download the correct version (cf. <a href="https://github.com/raidionics/Raidionics/wiki/Frequently-Asked-Questions-(FAQ)">FAQ</a>).</p>
 </div>
 
 <!-- Examples Section -->
@@ -291,7 +292,13 @@ body, html {
   </div>
   <h2 class="w3-center w3-large">Related research</h2>
   <div class="w3-container">
-    <p><a href="https://link.springer.com/article/10.1007/s00701-022-05126-9" class="w3-large"> * <i><b>Pretreatment patient-reported cognitive function in patients with diffuse glioma.</b></i>  Schei, S., Solheim, O., Salvesen, Ø., Hjermstad, M. J., Bouget, D., & Sagberg, L. M.. Acta Neurochirurgica, 164(3), 703-711, 2022.</a></p>
+    <p><a href="https://thejns.org/view/journals/j-neurosurg/142/5/article-p1298.xml" class="w3-large"> * <i><b>Prognostic value of manual versus automatic methods for assessing extents of resection and residual tumor volume in glioblastoma</b></i>  Majewska, P., Helland, R.H., ..., Bouget, D., & Solheim, O.. Journal of Neurosurgery, 142.5, 1298-1306, 2025.</a></p>
+    <p><a href="https://link.springer.com/chapter/10.1007/978-3-031-72089-5_27" class="w3-large"> * <i><b>Glioblastoma segmentation from early post-operative MRI: Challenges and clinical impact</b></i> Helland, R.H., Bouget, D., ..., Solheim, O., & Reinertsen, I. MICCAI, 2024.</a></p>
+    <p><a href="https://www.sciencedirect.com/science/article/pii/S2772529424000742" class="w3-large"> * <i><b>Incidence, risk factors, and clinical implications of postoperative blood in or near the resection cavity after glioma surgery</b></i>  Johnstad, C., Reinertsen, I., ..., Strand, P.S., & Solheim, O.. Brain and Spine, 4, 102818, 2024.</a></p>
+    <p><a href="https://link.springer.com/article/10.1007/s00701-024-06351-0" class="w3-large"> * <i><b>The prognostic importance of glioblastoma size and shape</b></i>  Johnstad, C., Reinertsen, I., ..., Jakola, A.S., & Solheim, O.. Acta Neurochirurgica, 166.1, 450, 2024.</a></p>
+    <p><a href="https://academic.oup.com/noa/article/6/1/vdad157/7484549" class="w3-large"> * <i><b>Growth dynamics of untreated meningiomas</b></i> Strand, P.S., Wågø, K.J., ..., Vanel, J.,& Solheim, O.. Neuro-Oncology Advances, 6.1, 2024.</a></p>
+    <p><a href="https://www.nature.com/articles/s41598-023-45456-x" class="w3-large"> * <i><b>Segmentation of glioblastomas in early post-operative multi-modal MRI with deep neural networks</b></i> Helland, R.H., Ferles, A., ..., Reinertsen, I., & Bouget, D.. Scientific reports, 13.1, 2023.</a></p>
+    <p><a href="https://link.springer.com/article/10.1007/s00701-022-05126-9" class="w3-large"> * <i><b>Pretreatment patient-reported cognitive function in patients with diffuse glioma</b></i>  Schei, S., Solheim, O., Salvesen, Ø., Hjermstad, M. J., Bouget, D., & Sagberg, L. M.. Acta Neurochirurgica, 164(3), 703-711, 2022.</a></p>
   </div>
 </div>
 
