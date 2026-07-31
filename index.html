@@ -1,356 +1,1014 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Raidionics</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<title>Raidionics — CNS tumor segmentation and standardized reporting</title>
+<meta name="description" content="Raidionics is free, open-source software that automatically segments central nervous system tumors from MRI and produces a standardized report — as a desktop app or a 3D Slicer plugin. Built by SINTEF Medical Image Analysis.">
+<link rel="canonical" href="https://raidionics.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://raidionics.github.io/">
+<meta property="og:title" content="Raidionics — CNS tumor segmentation and standardized reporting">
+<meta property="og:description" content="Open-source software for pre- and post-operative CNS tumor segmentation and standardized reporting. Runs locally on Windows, macOS and Linux.">
+<!-- Add a 1200x630 PNG at assets/og-image.png for link previews (LinkedIn, X, Slack, Bluesky). -->
+<meta property="og:image" content="https://raidionics.github.io/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230B1220'/%3E%3Ccircle cx='16' cy='16' r='13' fill='none' stroke='%233FC9BE' stroke-width='1.6'/%3E%3Cpath d='M10 18c2-6 5-9 6-9s2 5 3 9-2 6-4.5 6S8.5 22 10 18z' stroke='%23D6432E' stroke-width='1.6' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+  :root{
+    --ink:#0B1220;
+    --ink-2:#132038;
+    --paper:#F3F5F4;
+    --card:#FFFFFF;
+    --teal:#12807D;
+    --teal-bright:#3FC9BE;
+    --coral:#D6432E;
+    --coral-dim:#F4DAD4;
+    --text:#12161C;
+    --slate:#57626C;
+    --slate-light:#8592A0;
+    --line:#DDE3E2;
+    --line-dark:#28374F;
+    --paper-inverse:#F3F5F4;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--text);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--teal);
+  }
+  a{color:inherit;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 32px;}
+  section{padding:96px 0;}
 
-body, html {
-  height: 100%;
-  line-height: 1.8;
-}
+  .skip{
+    position:absolute;left:-9999px;top:auto;
+  }
+  .skip:focus{
+    left:12px;top:12px;z-index:100;
+    background:var(--teal);color:#fff;text-decoration:none;
+    padding:10px 16px;border-radius:4px;font-size:14px;
+  }
 
-.title {
-  line-height: 1.0;
-  color: white;
-  text-align: center;
-  margin: auto;
-  padding-top: 350px;
-}
+  /* nav */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(11,18,32,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-dark);
+  }
+  nav.wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-top:18px;padding-bottom:18px;
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    color:var(--paper-inverse);text-decoration:none;
+  }
+  .brand img{height:20px;width:auto;flex-shrink:0;}
+  .brand span{font-family:'Fraunces',serif;font-size:19px;font-weight:500;}
+  .navlinks{display:flex;gap:32px;list-style:none;margin:0;padding:0;}
+  .navlinks a{
+    color:#B9C3D1;text-decoration:none;font-size:14px;font-weight:500;
+    transition:color 0.15s;
+  }
+  .navlinks a:hover{color:var(--teal-bright);}
+  .navcta{
+    background:var(--teal);color:#fff;text-decoration:none;
+    padding:9px 18px;border-radius:4px;font-size:14px;font-weight:500;
+    transition:background 0.15s;
+  }
+  .navcta:hover{background:#0E6663;}
 
-/* Full height image header */
-.bgimg-1 {
-  background-position: center;
-  background-size: cover;
-  background-image: url("/assets/raidionics-interface-example.png");
-  min-height: 100%;
-}
+  /* hero */
+  .hero{
+    background:var(--ink);color:var(--paper-inverse);
+    padding:88px 0 0 0;
+    overflow:hidden;
+  }
+  .hero .wrap{
+    display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;
+    align-items:center;
+  }
+  .hero h1{font-size:clamp(32px,5vw,44px);line-height:1.12;color:#fff;margin-bottom:22px;}
+  .hero h1 em{font-style:italic;color:var(--teal-bright);}
+  .hero p.lede{
+    font-size:17px;color:#AEB9C6;max-width:440px;margin-bottom:34px;
+  }
+  .hero-ctas{display:flex;gap:14px;margin-bottom:64px;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--teal);color:#fff;text-decoration:none;
+    padding:13px 24px;border-radius:4px;font-weight:500;font-size:15px;
+    transition:background 0.15s;
+  }
+  .btn-primary:hover{background:#0E6663;}
+  .btn-ghost{
+    border:1px solid #3A4A63;color:#E4E9EF;text-decoration:none;
+    padding:13px 24px;border-radius:4px;font-weight:500;font-size:15px;
+    transition:border-color 0.15s;
+  }
+  .btn-ghost:hover{border-color:var(--teal-bright);}
+  .hero-visual{position:relative;display:flex;justify-content:center;}
+  .hero-visual svg{width:100%;max-width:420px;height:auto;}
 
-.pipeline {
-  background-image: url("/assets/raidionics-pipeline.png");
-  background-size: 100%;
-  object-fit: contain;
-  width: 800px;
-}
+  /* hero illustration */
+  .hero-visual{--spd:5s;}                /* master loop speed */
+  @keyframes rd-draw  { to { stroke-dashoffset: 0; } }
+  @keyframes rd-ants  { to { stroke-dashoffset: -56; } }
+  @keyframes rd-sweep { 0%, 100% { transform: translateY(-32px); } 50% { transform: translateY(32px); } }
+  @keyframes rd-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+  @keyframes rd-in    { to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce){
+    .hero-visual *{animation:none !important;}
+    .hero-visual [style*="rd-draw"]{stroke-dashoffset:0 !important;}
+    .hero-visual [style*="rd-in"]{opacity:1 !important;}
+  }
 
-/* Raidionics gif */
-.raidionics {
-  background-image: url("/assets/raidionics_preview.gif");
-  background-size: 100%;
-  object-fit: contain;
-}
+  .stat-bar{
+    border-top:1px solid var(--line-dark);
+    display:grid;grid-template-columns:repeat(4,1fr);
+  }
+  .stat-bar div{
+    padding:22px 32px;border-right:1px solid var(--line-dark);
+  }
+  .stat-bar div:last-child{border-right:none;}
+  .stat-num{font-family:'Fraunces',serif;font-size:26px;color:#fff;}
+  .stat-lbl{font-size:12.5px;color:#8592A0;margin-top:2px;}
 
-/* Raidionics 3D Slicer gif */
-.raidionics-slicer {
-  background-image: url("/assets/raidionics-slicer-rads.gif");
-  background-size: 100%;
-  object-fit: contain;
-}
+  /* capabilities */
+  .section-head{max-width:600px;margin-bottom:48px;}
+  .section-head h2{font-size:30px;margin-top:10px;}
+  .section-head p{color:var(--slate);font-size:15.5px;margin-top:12px;}
+  .caps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);}
+  .cap{padding:32px 32px 0 0;}
+  .cap + .cap{border-left:1px solid var(--line);padding-left:32px;}
+  .cap-art{height:82px;display:flex;align-items:flex-end;margin-bottom:22px;}
+  .cap-art svg{width:100%;max-width:158px;height:auto;overflow:visible;}
+  .cap h3{font-size:18px;margin-bottom:8px;}
+  .cap > p{font-size:14.5px;color:var(--slate);margin:0 0 20px;text-wrap:pretty;}
+  .spec{display:grid;gap:11px;}
+  .spec-row{display:grid;grid-template-columns:92px 1fr;gap:12px;}
+  .spec-k{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.09em;
+    text-transform:uppercase;color:var(--slate);padding-top:3px;
+  }
+  .spec-v{font-size:13.5px;color:var(--slate);line-height:1.5;}
 
-.w3-bar .w3-button {
-  padding: 16px;
-}
+  /* pipeline */
+  .pipeline-wrap{background:var(--ink);color:var(--paper-inverse);}
+  .pipeline-wrap .eyebrow{color:var(--teal-bright);}
+  .pipeline-wrap .section-head h2{color:#fff;}
+  .pipeline-wrap .section-head p{color:#AEB9C6;}
+  .flow{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+  .flow::before{
+    content:'';position:absolute;left:0;right:0;top:96px;height:1px;
+    background:var(--line-dark);
+  }
+  .flow-step{position:relative;padding:0 32px 0 0;}
+  .flow-art{height:80px;display:flex;align-items:flex-end;}
+  .flow-art svg{width:100%;max-width:158px;height:auto;overflow:visible;}
+  .flow-dot{
+    position:absolute;top:92px;left:0;width:9px;height:9px;border-radius:50%;
+    background:var(--teal-bright);box-shadow:0 0 0 5px var(--ink);
+  }
+  .flow-body{padding-top:34px;}
+  .flow-idx{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--teal-bright);margin:0;}
+  .flow-step h4{font-family:'Fraunces',serif;font-weight:500;font-size:17px;color:#fff;margin:8px 0 8px;}
+  .flow-step p.flow-copy{font-size:13.5px;color:#AEB9C6;margin:0;text-wrap:pretty;}
+  .flow-pulse{
+    position:absolute;top:94px;left:0;width:5px;height:5px;border-radius:50%;
+    background:var(--teal-bright);box-shadow:0 0 8px 2px rgba(63,201,190,0.55);
+    animation:flow-run 7s linear infinite;
+  }
+  @keyframes flow-run{
+    0%{left:0;opacity:0;}
+    8%{opacity:1;}
+    92%{opacity:1;}
+    100%{left:100%;opacity:0;}
+  }
+  @keyframes flow-ants{to{stroke-dashoffset:-42;}}
+  .flow-mask{animation:flow-ants 4s linear infinite;}
+  @media (prefers-reduced-motion: reduce){
+    .flow-pulse,.flow-mask{animation:none;}
+  }
+  .facts{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:28px 32px;
+    margin-top:56px;padding-top:30px;border-top:1px solid var(--line-dark);
+  }
+  .fact-k{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:0.12em;text-transform:uppercase;color:var(--teal-bright);
+  }
+  .fact p{font-size:14px;color:#AEB9C6;margin:6px 0 0;}
 
+  /* demos */
+  .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+  .demo-card h3{font-size:17px;margin:18px 0 6px;}
+  .demo-card p{font-size:14px;color:var(--slate);margin:0 0 10px;}
+  .demo-link{
+    font-size:13.5px;font-weight:500;color:var(--teal);text-decoration:none;
+  }
+  .demo-link:hover{color:var(--coral);}
+  .demo-frame{
+    border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--ink);
+  }
+  .demo-frame-bar{
+    display:flex;gap:6px;padding:9px 12px;background:var(--ink-2);
+    border-bottom:1px solid var(--line-dark);
+  }
+  .demo-frame-bar span{
+    width:8px;height:8px;border-radius:50%;background:#3A4A63;display:block;
+  }
+  .demo-frame img,.demo-frame video{width:100%;display:block;}
+
+  /* trust bar */
+  .trust{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .trust .wrap{padding:44px 32px;}
+  .trust-label{font-size:13px;color:var(--slate);margin-bottom:20px;}
+  .trust-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:18px 32px;
+  }
+  .trust-item{
+    display:flex;gap:10px;align-items:flex-start;
+    border-left:2px solid var(--line);padding-left:12px;
+  }
+  .trust-item .fa{color:var(--teal);font-size:13px;line-height:1.6;flex-shrink:0;}
+  .t-name{font-size:13.5px;font-weight:500;color:var(--text);line-height:1.35;}
+  .t-loc{font-size:12.5px;color:var(--slate);line-height:1.4;}
+
+  /* downloads */
+  .dl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .dl-card{
+    background:var(--card);border:1px solid var(--line);border-radius:6px;
+    padding:26px;
+  }
+  .dl-card .os-icon{font-size:34px;line-height:1;color:var(--ink);margin-bottom:16px;display:block;}
+  .dl-card h3{font-size:16px;margin-bottom:14px;}
+  .dl-card a{
+    display:block;font-size:13.5px;color:var(--teal);text-decoration:none;
+    padding:7px 0;border-top:1px solid var(--line);font-weight:500;
+  }
+  .dl-card a:first-of-type{border-top:none;}
+  .dl-card a:hover{color:var(--coral);}
+  .dl-version{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--slate);
+    margin-bottom:24px;
+  }
+  .dl-note{
+    margin-top:20px;font-size:13.5px;color:var(--slate);
+    border-left:2px solid var(--coral-dim);padding-left:12px;
+  }
+  .dl-note strong{color:var(--text);font-weight:600;}
+
+  /* publications */
+  .pub-cols{display:grid;grid-template-columns:1fr 1fr;gap:56px;}
+  .pub-col h3{
+    font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12.5px;
+    text-transform:uppercase;letter-spacing:0.1em;color:var(--slate);
+    margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--line);
+  }
+  .pub-item{padding:16px 0;border-bottom:1px solid var(--line);}
+  .pub-item:first-of-type{padding-top:0;}
+  .pub-item a{text-decoration:none;color:var(--text);font-size:14.5px;font-weight:500;line-height:1.45;}
+  .pub-item a:hover{color:var(--teal);}
+  .pub-meta{font-size:12.5px;color:var(--slate);margin-top:5px;}
+  .pub-item.is-extra{display:none;}
+  .pub-col.show-all .pub-item.is-extra{display:block;}
+  .btn-quiet{
+    margin-top:18px;background:none;border:1px solid var(--line);
+    color:var(--teal);font-family:'IBM Plex Sans',sans-serif;
+    font-size:13px;font-weight:500;padding:10px 16px;border-radius:4px;
+    cursor:pointer;transition:border-color 0.15s,color 0.15s;
+  }
+  .btn-quiet:hover{border-color:var(--teal);color:#0E6663;}
+
+  /* citation */
+  .cite{
+    margin-top:56px;background:var(--card);
+    border:1px solid var(--line);border-radius:6px;padding:28px;
+  }
+  .cite h3{font-size:18px;margin-bottom:6px;}
+  .cite > p{font-size:14.5px;color:var(--slate);margin:0 0 18px;max-width:620px;}
+  .cite pre{
+    margin:0;padding:18px;background:#F7F9F8;
+    border:1px solid var(--line);border-radius:4px;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.6;
+    color:var(--text);overflow-x:auto;
+  }
+  .cite-row{display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+  .cite-doi{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--slate);}
+  .cite-doi a{color:var(--teal);text-decoration:none;}
+  .cite-doi a:hover{color:var(--coral);}
+
+  /* team */
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 24px;}
+  .team-card{display:flex;gap:14px;align-items:flex-start;}
+  .avatar{
+    width:48px;height:48px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;font-size:16px;color:#fff;background:var(--teal);
+    overflow:hidden;
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover;}
+  .team-card h4{font-size:15px;font-weight:600;margin:0 0 2px;font-family:'IBM Plex Sans',sans-serif;}
+  .team-role{font-size:13px;color:var(--teal);margin-bottom:4px;}
+  .team-email{font-size:12.5px;color:var(--slate);}
+  .team-email a{text-decoration:none;color:inherit;}
+  .team-email a:hover{color:var(--teal);}
+
+  /* footer */
+  footer{background:var(--ink);color:#AEB9C6;padding:64px 0 40px;}
+  .foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px;margin-bottom:40px;}
+  footer h4{color:#fff;font-family:'IBM Plex Sans',sans-serif;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:16px;}
+  footer p{font-size:14px;margin:0 0 10px;}
+  footer a{text-decoration:none;color:#AEB9C6;font-size:14px;display:block;margin-bottom:9px;}
+  footer a:hover{color:var(--teal-bright);}
+  .foot-legal{
+    border-top:1px solid var(--line-dark);padding-top:24px;margin-bottom:24px;
+    font-size:13px;color:#8592A0;max-width:760px;
+  }
+  .foot-bottom{
+    border-top:1px solid var(--line-dark);padding-top:24px;
+    display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+    font-size:13px;color:#5F6D80;
+  }
+
+  .navtoggle{
+    display:none;background:none;border:none;color:#fff;cursor:pointer;
+    padding:6px;
+  }
+  .navtoggle svg{width:22px;height:22px;}
+
+  @media (max-width:860px){
+    .hero .wrap{grid-template-columns:1fr;}
+    .hero-visual{order:-1;}
+    .caps,.dl-grid,.pub-cols,.team-grid,.demo-grid,.facts{grid-template-columns:1fr;}
+    .cap{padding:28px 0 0;}
+    .cap + .cap{border-left:none;border-top:1px solid var(--line);padding-left:0;}
+    .flow{grid-template-columns:1fr;gap:36px;}
+    .flow::before,.flow-pulse{display:none;}
+    .flow-step{padding:0 0 0 28px;border-left:1px solid var(--line-dark);}
+    .flow-art{height:auto;justify-content:flex-start;}
+    .flow-art svg{max-width:132px;}
+    .flow-dot{top:6px;left:-5px;}
+    .flow-body{padding-top:18px;}
+    .stat-bar{grid-template-columns:1fr 1fr;}
+    .foot-grid{grid-template-columns:1fr;}
+    .trust-grid{grid-template-columns:1fr 1fr;}
+    .navtoggle{display:block;}
+    header nav.wrap{position:relative;}
+    .navlinks{
+      display:none;position:absolute;top:100%;left:0;right:0;
+      flex-direction:column;gap:0;background:var(--ink);
+      border-bottom:1px solid var(--line-dark);padding:8px 32px 18px;
+    }
+    .navlinks.open{display:flex;}
+    .navlinks a{padding:12px 0;border-bottom:1px solid var(--line-dark);}
+    .navcta{display:none;}
+  }
+  @media (max-width:560px){
+    .hero h1 br{display:none;}
+    .trust-grid{grid-template-columns:1fr;}
+  }
 </style>
+<noscript><style>.pub-item.is-extra{display:block;}.btn-quiet{display:none;}</style></noscript>
 </head>
 <body>
 
-<!-- Navbar (sit on top) -->
-<div class="w3-top">
-  <div class="w3-bar w3-white w3-card" id="myNavbar">
-    <a href="#home" class="w3-bar-item w3-button w3-wide">Raidionics</a>
-    <!-- Right-sided navbar links -->
-    <div class="w3-right w3-hide-small">
-      <a href="#about" class="w3-bar-item w3-button"><i class="fa fa-th"></i> ABOUT</a>
-      <a href="#team" class="w3-bar-item w3-button"><i class="fa fa-user"></i> TEAM</a>
-      <a href="#publications" class="w3-bar-item w3-button"><i class="fa fa-book"></i> PUBLICATIONS</a>
-      <a href="#download" class="w3-bar-item w3-button"><i class="fa fa-cloud-download" aria-hidden="true"></i>DOWNLOAD</a>
-      <a href="#contact" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> CONTACT</a>
-    </div>
-    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+<a class="skip" href="#about">Skip to content</a>
 
-    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
-      <i class="fa fa-bars"></i>
+<header>
+  <nav class="wrap">
+    <a class="brand" href="#top">
+      <img src="assets/raidionics-logo.png" alt="Raidionics logo">
+      <span>Raidionics</span>
     </a>
-  </div>
-</div>
-
-<!-- Sidebar on small screens when clicking the menu icon -->
-<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
-  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
-  <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
-  <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">TEAM</a>
-  <a href="#publications" onclick="w3_close()" class="w3-bar-item w3-button">PUBLICATIONS</a>
-  <a href="#download" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
-  <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">CONTACT</a>
-</nav>
-
-<!-- Header with full-height image -->
-<header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
-  <div class="title">
-    <span class="w3-xxxlarge">Pre- and post-operative central nervous <br> system tumor segmentation <br> and standardized reporting</span><br>
-    <span class="w3-xlarge"><br> A software platform for the analysis and visualization of neurological MR scans</span><br>
-<!--    <span class="w3-large">Stop wasting valuable time with projects that just isn't you.</span>-->
-<!--    <p><a href="#download" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Start now</a></p>-->
-  </div>
-  <!-- About Section -->
-  <div class="w3-container" style="padding:20px 16px" id="start">
-    <div class="w3-row-padding w3-center" style="margin-top:30px">
-      <div class="w3-quarter">
-        <p></p>
-      </div>
-      <div class="w3-quarter">
-        <p><a href="#download" class="w3-button w3-white w3-padding-large w3-large">Try now</a></p>
-      </div>
-      <div class="w3-quarter" style="margin-left:-50px">
-        <p><a href="https://github.com/raidionics" class="w3-button w3-white w3-padding-large w3-large">View on GitHub</a></p>
-      </div>
-    </div>
-  </div>
+    <ul class="navlinks" id="navlinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#pipeline">How it works</a></li>
+      <li><a href="#examples">Examples</a></li>
+      <li><a href="#download">Download</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="navcta" href="#download">Download</a>
+    <button class="navtoggle" id="navtoggle" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </nav>
 </header>
 
-<!-- About Section -->
-<div class="w3-container" style="padding:128px 16px" id="about">
-  <h1 class="w3-center">ABOUT Raidionics</h1>
-  <h3 class="w3-center">A description of the different use-cases supported by Raidionics, along with Youtube presentation videos,
-    are available on our <a href="https://github.com/raidionics/Raidionics/wiki"> <strong>wiki</strong></a>.</h3>
-    <div class="w3-half">
-        <p class="pipeline"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p><br>
+<div class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Open-source · SINTEF Medical Image Analysis</p>
+      <h1>Segment CNS tumors.<br>Generate <em>the report</em>.<br>In one workflow.</h1>
+      <p class="lede">Raidionics automatically segments central nervous system tumors from MRI and produces a standardized clinical report — as a desktop app or a 3D Slicer plugin.</p>
+      <div class="hero-ctas">
+        <a class="btn-primary" href="#download">Download Raidionics</a>
+        <a class="btn-ghost" href="https://github.com/raidionics">View on GitHub</a>
+      </div>
     </div>
-    <div class="w3-half">
-      <span class="fa fa-pencil-square w3-xxlarge w3-center"> Segmentation</span>
-      <p class="w3-large"> The most common central nervous system tumor types can be segmented pre-/post-operatively: <i>glioblastomas</i>, <i>diffuse lower-grade gliomas</i>,
-    <i>meningiomas</i>, and <i>metastases</i>. Common structures are available for segmentation such as enhancing tissue, non-enhancing tumor core, tumor core, FLAIR hyperintensity, and resection cavity</p>
-      <p class="w3-large"> All models have been trained locally using patient data from our partnered hospitals, and using the Attention U-Net architecture (more details available in the <a href="#publications">Publications</a> section).</p>
+    <div class="hero-visual">
+
+<svg viewBox="0 0 300 348" role="img" aria-label="Illustration of a stack of axial MRI slices with an animated tumor segmentation outline and the resulting standardized measurements">
+  <g stroke="var(--line-dark, #28374F)" fill="var(--ink-2, #132038)" fill-opacity="0.5">
+    <ellipse cx="122" cy="126" rx="94" ry="110" stroke-width="1" />
+    <ellipse cx="136" cy="139" rx="94" ry="110" stroke-width="1.1" />
+  </g>
+  <g transform="translate(150,152)">
+    <ellipse cx="0" cy="0" rx="94" ry="110" fill="var(--ink-2, #132038)" stroke="var(--line-dark, #28374F)" stroke-width="1.6" />
+    <ellipse cx="0" cy="2" rx="81" ry="96" fill="none" stroke="#243349" stroke-width="1.2" />
+    <path d="M0,-92 C-5,-38 5,44 0,96" fill="none" stroke="#243349" stroke-width="1.1" />
+    <path d="M-7,-34 C-20,-20 -28,0 -21,22 C-17,31 -10,27 -9,15 C-7,-6 -5,-22 -7,-34 Z" fill="#1E2C46" />
+    <path d="M7,-34 C20,-20 28,0 21,22 C17,31 10,27 9,15 C7,-6 5,-22 7,-34 Z" fill="#1E2C46" />
+    <g style="animation: rd-sweep calc(var(--spd, 5s) * 1.7) ease-in-out infinite;">
+      <line x1="-60" y1="0" x2="60" y2="0" stroke="var(--teal-bright, #3FC9BE)" stroke-width="1.2" stroke-dasharray="6 5" opacity="0.75" />
+      <line x1="-60" y1="-5" x2="-60" y2="5" stroke="var(--teal-bright, #3FC9BE)" stroke-width="1.2" />
+      <line x1="60" y1="-5" x2="60" y2="5" stroke="var(--teal-bright, #3FC9BE)" stroke-width="1.2" />
+    </g>
+    <g transform="translate(42,-36)">
+      <path d="M0,-27 C16,-29 28,-18 31,-4 C34,11 23,26 7,27 C-8,28 -20,18 -22,3 C-24,-12 -15,-25 0,-27 Z" fill="var(--coral, #D6432E)" fill-opacity="0.18" stroke="var(--coral, #D6432E)" stroke-width="2" stroke-dasharray="200" stroke-dashoffset="200" style="animation: rd-draw 2.4s ease forwards 0.4s;" />
+      <path d="M0,-27 C16,-29 28,-18 31,-4 C34,11 23,26 7,27 C-8,28 -20,18 -22,3 C-24,-12 -15,-25 0,-27 Z" fill="none" stroke="var(--coral, #D6432E)" stroke-width="2" stroke-dasharray="8 6" opacity="0" style="animation: rd-in 0.6s ease forwards 2.8s, rd-ants calc(var(--spd, 5s) * 0.6) linear infinite 2.8s;" />
+    </g>
+  </g>
+  <g opacity="0" style="animation: rd-in 0.7s ease forwards 3.1s;">
+    <line x1="207" y1="106" x2="243" y2="70" stroke="var(--coral, #D6432E)" stroke-width="1" stroke-dasharray="3 4" />
+    <g transform="translate(255,58)">
+      <g style="animation: rd-float calc(var(--spd, 5s) * 1.4) ease-in-out infinite;">
+        <g transform="scale(0.62)">
+          <path d="M0,-27 C16,-29 28,-18 31,-4 C34,11 23,26 7,27 C-8,28 -20,18 -22,3 C-24,-12 -15,-25 0,-27 Z" fill="var(--coral, #D6432E)" fill-opacity="0.3" stroke="var(--coral, #D6432E)" stroke-width="2.6" />
+        </g>
+      </g>
+    </g>
+  </g>
+  <g font-family="'IBM Plex Mono', monospace" opacity="0" style="animation: rd-in 0.7s ease forwards 3.3s;">
+    <line x1="54" y1="272" x2="246" y2="272" stroke="var(--line-dark, #28374F)" stroke-width="1" />
+    <text x="54" y="291" font-size="10" letter-spacing="1.4" fill="var(--teal-bright, #3FC9BE)">STANDARDIZED REPORT</text>
+    <text x="54" y="309" font-size="11.5" fill="#8592A0">tumor volume</text>
+    <text x="246" y="309" font-size="11.5" fill="#E4E9EF" text-anchor="end">5 ml</text>
+    <text x="54" y="326" font-size="11.5" fill="#8592A0">max diameter</text>
+    <text x="246" y="326" font-size="11.5" fill="#E4E9EF" text-anchor="end">41 mm</text>
+    <text x="54" y="343" font-size="11.5" fill="#8592A0">location</text>
+    <text x="246" y="343" font-size="11.5" fill="#E4E9EF" text-anchor="end">frontal, right</text>
+  </g>
+</svg>
     </div>
-    <div class="w3-half">
-      <span class="fa fa-pie-chart w3-xxlarge w3-center"> Standardized reporting (RADS) </span>
-      <p class="w3-large"> Features computation, the standardized reports include the following tumor characteristics,
-        all computed in the MNI reference space: volumes, diameters, multifocality, laterality, location w.r.t. cortical structures
-        (MNI, Harvard-Oxford, and Schaefer atlases), and location w.r.t. subcortical structures (BCB atlas).
-        The computational pipeline is illustrated to the left.</p>
-      <p class="w3-large"> Surgical reporting: brain and tumor volumes pre-/post-operatively are reported, including extent of resection and surgical grading following the RANO2.0 guidelines.</p>
-    </div>
-    <div class="w3-half">
-      <span class="fa fa-hospital-o w3-xxlarge w3-center"> Hospital partners </span>
-      <p class="w3-medium"> Northwest Clinics (Alkmaar), Amsterdam University Medical Centers, University Medical Center Groningen,
-        Medical Center Haaglanden (The Hague), Humanitas Research Hospital (Milano), Hôpital Lariboisière (Paris),
-        University of California San Francisco Medical Center, Medical Center Slotervaart (Amsterdam),
-        St Elisabeth Hospital (Tilburg), University Medical Center Utrecht, Medical University Vienna,
-        Isala hospital (Zwolle), St. Olavs hospital (Trondheim), Sahlgrenska University Hospital (Gothenburg),
-        Brigham and Women's Hospital (Boston), and Oslo University Hospital.</p>
-    </div>
+  </div>
+  <div class="stat-bar wrap" style="padding-left:0;padding-right:0;max-width:1120px;">
+    <div><div class="stat-num">4</div><div class="stat-lbl">principal CNS tumor types supported</div></div>
+    <div><div class="stat-num">16</div><div class="stat-lbl">partner hospitals</div></div>
+    <div><div class="stat-num">3</div><div class="stat-lbl">operating systems</div></div>
+    <div><div class="stat-num">15+</div><div class="stat-lbl">peer-reviewed publications</div></div>
   </div>
 </div>
 
-<!-- Team Section -->
-<div class="w3-container w3-blue-gray" style="padding:128px 16px" id="team">
-  <h1 class="w3-center">ORIGINAL TEAM</h1>
-  <p class="w3-center w3-large">Core participants</p>
-  <div class="w3-row-padding" style="margin-top:64px">
-    <div class="w3-col l3 m6 w3-margin-bottom" style="margin:auto">
-      <div class="w3-card">
-        <img src="/assets/photo-david.png" alt="David" style="width:50%; margin-left:23.5%">
-        <div class="w3-container w3-light-grey">
-          <h3>David Bouget</h3>
-          <p class="w3-opacity">Lead developer, maintainer</p>
-          <p>david.bouget@sintef.no</p>
-<!--          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>-->
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">What it does</p>
+      <h2>Tumor segmentation and standardized reporting, without the manual work</h2>
+      <p>Built for neurosurgical and radiological research teams working with pre- and post-operative MRI, where volumes and locations are measured by hand today.</p>
+    </div>
+    <div class="caps">
+      <div class="cap">
+        <div class="cap-art">
+          <svg viewBox="0 0 158 80" aria-hidden="true">
+            <ellipse cx="46" cy="48" rx="27" ry="31" fill="var(--card)" stroke="var(--slate)" stroke-width="1.4" />
+            <ellipse cx="46" cy="49" rx="22" ry="26" fill="none" stroke="var(--line)" stroke-width="1.2" />
+            <path d="M46,23 C44,38 48,60 46,75" fill="none" stroke="var(--line)" stroke-width="1.2" />
+            <path class="flow-mask" d="M58,36 C67,35 73,41 74,48 C75,56 69,63 61,63 C53,64 47,58 46,51 C45,43 50,37 58,36 Z" fill="var(--coral)" fill-opacity="0.16" stroke="var(--coral)" stroke-width="1.6" stroke-dasharray="6 4" />
+            <line x1="84" y1="48" x2="104" y2="48" stroke="var(--line)" stroke-width="1.2" stroke-dasharray="3 3" />
+            <rect x="106" y="36" width="40" height="24" rx="2" fill="none" stroke="var(--line)" stroke-width="1.2" />
+            <path d="M118,42 C124,41 129,45 129,49 C129,54 124,57 119,56 C114,55 112,50 113,46 C114,43 116,42 118,42 Z" fill="var(--coral)" fill-opacity="0.28" stroke="var(--coral)" stroke-width="1.2" />
+          </svg>
+        </div>
+        <h3>Segmentation</h3>
+        <p>Voxel-wise tumor masks from a single click, trained with an Attention U-Net architecture on partner-hospital data.</p>
+        <div class="spec">
+          <div class="spec-row">
+            <span class="spec-k">Tumors</span>
+            <span class="spec-v">IDH-mutant and IDH-wildtype gliomas, meningiomas, metastases</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-k">Structures</span>
+            <span class="spec-v">Enhancing tissue, tumor core, FLAIR hyperintensity, resection cavity</span>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <div class="cap-art">
+          <svg viewBox="0 0 158 80" aria-hidden="true">
+            <rect x="10" y="14" width="84" height="64" rx="3" fill="var(--card)" stroke="var(--slate)" stroke-width="1.4" />
+            <line x1="20" y1="28" x2="58" y2="28" stroke="var(--teal)" stroke-width="1.6" />
+            <g stroke="var(--line)" stroke-width="1.4">
+              <line x1="20" y1="40" x2="84" y2="40" />
+              <line x1="20" y1="50" x2="84" y2="50" />
+              <line x1="20" y1="60" x2="70" y2="60" />
+            </g>
+            <g stroke="var(--coral)" stroke-width="1.6">
+              <line x1="66" y1="40" x2="84" y2="40" />
+              <line x1="72" y1="50" x2="84" y2="50" />
+            </g>
+            <g stroke="var(--line)" stroke-width="1.2">
+              <line x1="110" y1="22" x2="110" y2="70" />
+              <line x1="106" y1="22" x2="114" y2="22" />
+              <line x1="106" y1="70" x2="114" y2="70" />
+            </g>
+            <g stroke="var(--teal)" stroke-width="1.4">
+              <line x1="124" y1="30" x2="148" y2="30" />
+              <line x1="124" y1="46" x2="140" y2="46" />
+              <line x1="124" y1="62" x2="144" y2="62" />
+            </g>
+          </svg>
+        </div>
+        <h3>Standardized reporting</h3>
+        <p>Every mask becomes the same set of numbers, so cases and cohorts can be compared directly.</p>
+        <div class="spec">
+          <div class="spec-row">
+            <span class="spec-k">Features</span>
+            <span class="spec-v">Volume, diameters, multifocality, laterality</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-k">Atlases</span>
+            <span class="spec-v">Cortical: MNI, Harvard-Oxford, Schaefer · subcortical: BCB</span>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <div class="cap-art">
+          <svg viewBox="0 0 158 80" aria-hidden="true">
+            <ellipse cx="32" cy="48" rx="24" ry="28" fill="var(--card)" stroke="var(--slate)" stroke-width="1.4" />
+            <path d="M40,38 C48,37 53,42 54,48 C55,55 49,61 42,61 C35,61 30,56 30,50 C30,43 34,39 40,38 Z" fill="var(--coral)" fill-opacity="0.24" stroke="var(--coral)" stroke-width="1.5" />
+            <text x="22" y="14" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--slate)">pre</text>
+            <line x1="62" y1="48" x2="80" y2="48" stroke="var(--line)" stroke-width="1.2" />
+            <path d="M80,44 L86,48 L80,52" fill="none" stroke="var(--slate)" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round" />
+            <ellipse cx="116" cy="48" rx="24" ry="28" fill="var(--card)" stroke="var(--slate)" stroke-width="1.4" />
+            <path d="M122,40 C129,39 133,44 133,49 C133,55 128,59 122,58 C117,57 114,53 115,47 C116,43 119,40 122,40 Z" fill="none" stroke="var(--coral)" stroke-width="1.5" stroke-dasharray="4 3" />
+            <text x="104" y="14" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--slate)">post</text>
+          </svg>
+        </div>
+        <h3>Surgical reporting</h3>
+        <p>Pre- and post-operative scans are reported together, quantifying what the surgery achieved.</p>
+        <div class="spec">
+          <div class="spec-row">
+            <span class="spec-k">Volumes</span>
+            <span class="spec-v">Brain and tumor volumes before and after surgery</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-k">Grading</span>
+            <span class="spec-v">Extent of resection and surgical grading per RANO 2.0</span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="/assets/photo-andre.png" alt="Andre" style="width:50%; margin-left:23.5%">
-        <div class="w3-container w3-light-grey">
-          <h3>André Pedersen</h3>
-          <p class="w3-opacity">DevOps engineer</p>
-          <p>andre.pedersen@sintef.no</p>
-<!--          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>-->
+  </div>
+</section>
+
+<div class="pipeline-wrap" id="pipeline">
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">How it works</p>
+        <h2>One pipeline, from scan to report</h2>
+        <p>Four steps, fully automatic. The desktop app and the 3D Slicer plugin are front ends over the same open-source backend libraries.</p>
+      </div>
+      <div class="flow">
+        <span class="flow-pulse"></span>
+
+        <div class="flow-step">
+          <div class="flow-art">
+            <svg viewBox="0 0 158 80" aria-hidden="true">
+              <g fill="var(--ink-2)" stroke="var(--line-dark)">
+                <ellipse cx="34" cy="30" rx="26" ry="30" stroke-width="1" />
+                <ellipse cx="46" cy="40" rx="26" ry="30" stroke-width="1" />
+              </g>
+              <ellipse cx="58" cy="50" rx="26" ry="30" fill="var(--ink-2)" stroke="#4A5F80" stroke-width="1.4" />
+              <ellipse cx="58" cy="51" rx="21" ry="25" fill="none" stroke="#243349" stroke-width="1" />
+              <path d="M58,26 C56,40 60,62 58,76" fill="none" stroke="#243349" stroke-width="1" />
+            </svg>
+          </div>
+          <span class="flow-dot"></span>
+          <div class="flow-body">
+            <p class="flow-idx">01</p>
+            <h4>MRI input</h4>
+            <p class="flow-copy">Pre- or post-operative scans, as raw DICOM or volume formats such as NIfTI.</p>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-art">
+            <svg viewBox="0 0 158 80" aria-hidden="true">
+              <ellipse cx="46" cy="50" rx="26" ry="30" fill="var(--ink-2)" stroke="#4A5F80" stroke-width="1.4" />
+              <ellipse cx="46" cy="51" rx="21" ry="25" fill="none" stroke="#243349" stroke-width="1" />
+              <path d="M46,26 C44,40 48,62 46,76" fill="none" stroke="#243349" stroke-width="1" />
+              <path class="flow-mask" d="M58,38 C67,37 73,43 74,50 C75,58 69,65 61,65 C53,66 47,60 46,53 C45,45 50,39 58,38 Z" fill="var(--coral)" fill-opacity="0.2" stroke="var(--coral)" stroke-width="1.6" stroke-dasharray="6 4" />
+            </svg>
+          </div>
+          <span class="flow-dot"></span>
+          <div class="flow-body">
+            <p class="flow-idx">02</p>
+            <h4>Segmentation</h4>
+            <p class="flow-copy">In-house trained models outline the tumor compartments: contrast-enhancing, surrounding non-enhancing, FLAIR hyperintensity.</p>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-art">
+            <svg viewBox="0 0 158 80" aria-hidden="true">
+              <ellipse cx="46" cy="50" rx="26" ry="30" fill="var(--ink-2)" stroke="#4A5F80" stroke-width="1.4" />
+              <g stroke="var(--teal-bright)" stroke-width="0.8" opacity="0.55">
+                <line x1="20" y1="38" x2="72" y2="38" />
+                <line x1="20" y1="50" x2="72" y2="50" />
+                <line x1="20" y1="62" x2="72" y2="62" />
+                <line x1="34" y1="23" x2="34" y2="77" />
+                <line x1="46" y1="23" x2="46" y2="77" />
+                <line x1="58" y1="23" x2="58" y2="77" />
+              </g>
+              <path d="M58,38 C67,37 73,43 74,50 C75,58 69,65 61,65 C53,66 47,60 46,53 C45,45 50,39 58,38 Z" fill="var(--coral)" fill-opacity="0.22" stroke="var(--coral)" stroke-width="1.6" />
+              <line x1="82" y1="50" x2="104" y2="50" stroke="var(--teal-bright)" stroke-width="1" stroke-dasharray="3 3" />
+              <text x="110" y="46" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--slate-light)">MNI</text>
+              <text x="110" y="58" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--slate-light)">152</text>
+            </svg>
+          </div>
+          <span class="flow-dot"></span>
+          <div class="flow-body">
+            <p class="flow-idx">03</p>
+            <h4>Feature computation</h4>
+            <p class="flow-copy">Volumes, diameters, laterality and cortical/subcortical profiles, mapped onto reference atlases.</p>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-art">
+            <svg viewBox="0 0 158 80" aria-hidden="true">
+              <rect x="12" y="16" width="82" height="62" rx="3" fill="var(--ink-2)" stroke="#4A5F80" stroke-width="1.4" />
+              <line x1="22" y1="30" x2="60" y2="30" stroke="var(--teal-bright)" stroke-width="1.6" />
+              <g stroke="#3A4C69" stroke-width="1.4">
+                <line x1="22" y1="42" x2="84" y2="42" />
+                <line x1="22" y1="52" x2="84" y2="52" />
+                <line x1="22" y1="62" x2="70" y2="62" />
+              </g>
+              <g stroke="var(--coral)" stroke-width="1.6">
+                <line x1="66" y1="42" x2="84" y2="42" />
+                <line x1="72" y1="52" x2="84" y2="52" />
+              </g>
+            </svg>
+          </div>
+          <span class="flow-dot"></span>
+          <div class="flow-body">
+            <p class="flow-idx">04</p>
+            <h4>Standardized report</h4>
+            <p class="flow-copy">A structured clinical report ready for review, following the EANO/RANO 2.0 guidelines.</p>
+          </div>
+        </div>
+      </div>
+      <div class="facts">
+        <div class="fact">
+          <p class="fact-k">Runs locally</p>
+          <p>Inference happens on your own machine through a graphical interface. No data leaves it, and no internet connection is needed to process a patient.</p>
+        </div>
+        <div class="fact">
+          <p class="fact-k">Scriptable backends</p>
+          <p>The segmentation and reporting libraries are usable on their own via Python, the command line, or Docker — for batch studies and reproducible pipelines.</p>
+        </div>
+        <div class="fact">
+          <p class="fact-k">Open source</p>
+          <p>BSD-2-Clause licensed, developed in the open, with trained models released alongside the peer-reviewed papers describing them.</p>
         </div>
       </div>
     </div>
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="/assets/photo-demah.png" alt="Demah" style="width:50%; margin-left:23.5%">
-        <div class="w3-container w3-light-grey">
-          <h3>Demah Alsinan</h3>
-          <p class="w3-opacity">Designer</p>
-          <p>demah.alsinan@sintef.no</p>
-<!--          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>-->
+  </section>
+</div>
+
+<section id="examples" style="background:var(--card);border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">See it in action</p>
+      <h2>Two ways to run Raidionics</h2>
+      <p>Use it as a stand-alone desktop app, or inside 3D Slicer if that's already part of your workflow.</p>
+    </div>
+    <div class="demo-grid">
+      <div class="demo-card">
+        <div class="demo-frame">
+          <!-- These GIFs are the heaviest assets on the page. To cut them ~5-10x and let people
+               pause, encode once:
+                 ffmpeg -i assets/raidionics_preview.gif -vf "scale=1000:-2:flags=lanczos" \
+                        -c:v libx264 -pix_fmt yuv420p -crf 26 -movflags +faststart \
+                        assets/raidionics_preview.mp4
+                 ffmpeg -i assets/raidionics_preview.gif -c:v libvpx-vp9 -crf 34 -b:v 0 \
+                        assets/raidionics_preview.webm
+               then swap the <img> below for:
+                 <video autoplay loop muted playsinline preload="metadata"
+                        poster="assets/raidionics_preview_poster.jpg"
+                        aria-label="Demo of the Raidionics desktop application">
+                   <source src="assets/raidionics_preview.webm" type="video/webm">
+                   <source src="assets/raidionics_preview.mp4" type="video/mp4">
+                 </video> -->
+          <img src="assets/raidionics_preview.gif" loading="lazy" decoding="async" alt="Looping demo of the stand-alone Raidionics desktop application segmenting a brain tumor and generating a report">
         </div>
+        <h3>Stand-alone Raidionics</h3>
+        <p>A self-contained desktop app — install it and go, no other software required.</p>
+        <a class="demo-link" href="https://github.com/raidionics/Raidionics">View on GitHub →</a>
+      </div>
+      <div class="demo-card">
+        <div class="demo-frame">
+          <img src="assets/raidionics_slicer_preview.gif" loading="lazy" decoding="async" alt="Looping demo of the Raidionics plugin running inside 3D Slicer">
+        </div>
+        <h3>3D Slicer plugin</h3>
+        <p>Runs the same segmentation and reporting pipeline inside 3D Slicer.</p>
+        <a class="demo-link" href="https://github.com/raidionics/Raidionics-Slicer">View on GitHub →</a>
       </div>
     </div>
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="/assets/photo-valeria.png" alt="Valeria" style="width:50%; margin-left:23.5%">
-        <div class="w3-container w3-light-grey">
-          <h3>Valeria Gaitan</h3>
-          <p class="w3-opacity">Designer</p>
-          <p>valeria.gaitan@sintef.no</p>
-<!--          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>-->
+  </div>
+</section>
+
+<div class="trust">
+  <div class="wrap">
+    <p class="trust-label">Model training data provided by partner hospitals across Europe and the US</p>
+    <div class="trust-grid">
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Northwest Clinics</div><div class="t-loc">Alkmaar, Netherlands</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Amsterdam University Medical Centers</div><div class="t-loc">Amsterdam, Netherlands</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">University Medical Center Groningen</div><div class="t-loc">Groningen, Netherlands</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Medical Center Haaglanden</div><div class="t-loc">The Hague, Netherlands</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Humanitas Research Hospital</div><div class="t-loc">Milan, Italy</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Hôpital Lariboisière</div><div class="t-loc">Paris, France</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">UCSF Medical Center</div><div class="t-loc">San Francisco, United States</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Medical Center Slotervaart</div><div class="t-loc">Amsterdam, Netherlands</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">St Elisabeth Hospital</div><div class="t-loc">Tilburg, Netherlands</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">University Medical Center Utrecht</div><div class="t-loc">Utrecht, Netherlands</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Medical University of Vienna</div><div class="t-loc">Vienna, Austria</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Isala Hospital</div><div class="t-loc">Zwolle, Netherlands</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">St. Olavs Hospital</div><div class="t-loc">Trondheim, Norway</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Sahlgrenska University Hospital</div><div class="t-loc">Gothenburg, Sweden</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Brigham and Women's Hospital</div><div class="t-loc">Boston, United States</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Oslo University Hospital</div><div class="t-loc">Oslo, Norway</div></div></div>
+    </div>
+  </div>
+</div>
+
+<section id="download">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Get the software</p>
+      <h2>Download Raidionics</h2>
+      <p>Free installers for Windows, macOS, and Ubuntu Linux. Prefer 3D Slicer? Use the plugin instead.</p>
+    </div>
+    <p class="dl-version">Latest release · v1.3.2</p>
+    <div class="dl-grid">
+      <div class="dl-card">
+        <i class="fa fa-windows os-icon" aria-hidden="true"></i>
+        <h3>Windows</h3>
+        <a href="https://github.com/raidionics/Raidionics/releases/download/v1.3.2/Raidionics-1.3.2-win.exe">Windows, 64-bit (.exe) ↓</a>
+      </div>
+      <div class="dl-card">
+        <i class="fa fa-apple os-icon" aria-hidden="true"></i>
+        <h3>macOS</h3>
+        <a href="https://github.com/raidionics/Raidionics/releases/download/v1.3.2/Raidionics-1.3.2-macOS-arm64.pkg">macOS 14/15, Apple silicon (.pkg) ↓</a>
+      </div>
+      <div class="dl-card">
+        <i class="fa fa-linux os-icon" aria-hidden="true"></i>
+        <h3>Linux</h3>
+        <a href="https://github.com/raidionics/Raidionics/releases/download/v1.3.2/Raidionics-1.3.2-ubuntu.deb">Ubuntu ≥ 20.04 (.deb) ↓</a>
+      </div>
+    </div>
+    <p class="dl-note">Prefer 3D Slicer? Get the <a href="https://github.com/raidionics/Raidionics-Slicer" style="color:var(--teal);">Raidionics-Slicer plugin</a> instead.</p>
+    <p class="dl-note"><strong>Research software.</strong> Raidionics is intended for research use. It is not a certified medical device, it has no CE mark or FDA clearance, and its outputs must not be used as the sole basis for diagnosis or treatment decisions. All results should be reviewed by a qualified clinician.</p>
+  </div>
+</section>
+
+<section id="publications" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Research</p>
+      <h2>Publications</h2>
+      <p>The methods behind Raidionics, and related clinical research using the platform.</p>
+    </div>
+    <div class="pub-cols">
+      <div class="pub-col" id="pub-core">
+        <h3>Core research</h3>
+        <div class="pub-item">
+          <a href="https://www.frontiersin.org/journals/neurology/articles/10.3389/fneur.2025.1707481/full" target="_blank" rel="noopener">Automatic and standardized reporting of perioperative MRIs in patients with central nervous system tumors</a>
+          <p class="pub-meta">Bouget, Faanes, Jakola, et al. — Frontiers in Neurology, 2025</p>
         </div>
+        <div class="pub-item">
+          <a href="https://www.nature.com/articles/s41598-023-42048-7" target="_blank" rel="noopener">Raidionics: an open software for pre- and postoperative central nervous system tumor segmentation and standardized reporting</a>
+          <p class="pub-meta">Bouget, Alsinan, Gaitan, Helland, Solheim, Reinertsen — Nature Scientific Reports, 2023</p>
+        </div>
+        <div class="pub-item">
+          <a href="https://www.frontiersin.org/articles/10.3389/fneur.2022.932219/full" target="_blank" rel="noopener">Preoperative brain tumor imaging: models and software for segmentation and standardized reporting</a>
+          <p class="pub-meta">Bouget, Pedersen, Jakola, et al. — Frontiers in Neurology, 2022</p>
+        </div>
+        <div class="pub-item">
+          <a href="https://www.frontiersin.org/articles/10.3389/fradi.2021.711514/full" target="_blank" rel="noopener">Meningioma segmentation in T1-weighted MRI leveraging global context and attention mechanisms</a>
+          <p class="pub-meta">Bouget, Pedersen, Hosainey, Solheim, Reinertsen — Frontiers in Radiology, 2021</p>
+        </div>
+        <div class="pub-item is-extra">
+          <a href="https://www.mdpi.com/2072-6694/13/18/4674" target="_blank" rel="noopener">Glioblastoma surgery imaging – reporting and data system: validation and performance of the automated segmentation task</a>
+          <p class="pub-meta">Bouget, Eijgelaar, Pedersen, et al. — Cancers, 2021</p>
+        </div>
+        <div class="pub-item is-extra">
+          <a href="https://www.mdpi.com/2072-6694/13/12/2854" target="_blank" rel="noopener">Glioblastoma surgery imaging — reporting and data system: standardized reporting of tumor volume, location, and resectability</a>
+          <p class="pub-meta">Kommers, Bouget, Pedersen, et al. — Cancers, 2021</p>
+        </div>
+        <div class="pub-item is-extra">
+          <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7995198/" target="_blank" rel="noopener">Fast meningioma segmentation in T1-weighted MRI volumes using a lightweight 3D deep learning architecture</a>
+          <p class="pub-meta">Bouget, Pedersen, Hosainey, Vanel, Solheim, Reinertsen — Journal of Medical Imaging, 2021</p>
+        </div>
+        <button class="btn-quiet" type="button" data-pub-toggle="pub-core" aria-expanded="false">Show 3 more</button>
+      </div>
+      <div class="pub-col" id="pub-related">
+        <h3>Related research</h3>
+        <div class="pub-item">
+          <a href="https://academic.oup.com/noa/article/8/1/vdag170/8722169" target="_blank" rel="noopener">Population-based validation of the RANO categories for extent of resection in glioblastoma</a>
+          <p class="pub-meta">Johnstad, Reinertsen, Bouget, et al. — Neuro-Oncology Advances, 2026</p>
+        </div>
+        <div class="pub-item">
+          <a href="https://thejns.org/view/journals/j-neurosurg/142/5/article-p1298.xml" target="_blank" rel="noopener">Prognostic value of manual versus automatic methods for assessing extents of resection and residual tumor volume in glioblastoma</a>
+          <p class="pub-meta">Majewska, Helland, et al. — Journal of Neurosurgery, 2025</p>
+        </div>
+        <div class="pub-item">
+          <a href="https://link.springer.com/chapter/10.1007/978-3-031-72089-5_27" target="_blank" rel="noopener">Glioblastoma segmentation from early post-operative MRI: challenges and clinical impact</a>
+          <p class="pub-meta">Helland, Bouget, et al. — MICCAI, 2024</p>
+        </div>
+        <div class="pub-item">
+          <a href="https://www.sciencedirect.com/science/article/pii/S2772529424000742" target="_blank" rel="noopener">Incidence, risk factors, and clinical implications of postoperative blood in or near the resection cavity after glioma surgery</a>
+          <p class="pub-meta">Johnstad, Reinertsen, et al. — Brain and Spine, 2024</p>
+        </div>
+        <div class="pub-item is-extra">
+          <a href="https://link.springer.com/article/10.1007/s00701-024-06351-0" target="_blank" rel="noopener">The prognostic importance of glioblastoma size and shape</a>
+          <p class="pub-meta">Johnstad, Reinertsen, et al. — Acta Neurochirurgica, 2024</p>
+        </div>
+        <div class="pub-item is-extra">
+          <a href="https://academic.oup.com/noa/article/6/1/vdad157/7484549" target="_blank" rel="noopener">Growth dynamics of untreated meningiomas</a>
+          <p class="pub-meta">Strand, Wågø, et al. — Neuro-Oncology Advances, 2024</p>
+        </div>
+        <div class="pub-item is-extra">
+          <a href="https://www.nature.com/articles/s41598-023-45456-x" target="_blank" rel="noopener">Segmentation of glioblastomas in early post-operative multi-modal MRI with deep neural networks</a>
+          <p class="pub-meta">Helland, Ferles, et al. — Scientific Reports, 2023</p>
+        </div>
+        <div class="pub-item is-extra">
+          <a href="https://link.springer.com/article/10.1007/s00701-022-05126-9" target="_blank" rel="noopener">Pretreatment patient-reported cognitive function in patients with diffuse glioma</a>
+          <p class="pub-meta">Schei, Solheim, et al. — Acta Neurochirurgica, 2022</p>
+        </div>
+        <button class="btn-quiet" type="button" data-pub-toggle="pub-related" aria-expanded="false">Show 4 more</button>
+      </div>
+    </div>
+
+    <div class="cite" id="cite">
+      <h3>How to cite Raidionics</h3>
+      <p>If Raidionics contributed to your work, please cite the software paper. Reporting the version you used (visible in the app's About dialog) helps others reproduce your results.</p>
+      <pre id="bibtex">@article{bouget2023raidionics,
+  title   = {Raidionics: an open software for pre- and postoperative
+             central nervous system tumor segmentation and standardized reporting},
+  author  = {Bouget, David and Alsinan, Demah and Gaitan, Valeria and
+             Helland, Ragnhild Holden and Solheim, Ole and Reinertsen, Ingerid},
+  journal = {Scientific Reports},
+  volume  = {13},
+  number  = {1},
+  pages   = {15570},
+  year    = {2023},
+  doi     = {10.1038/s41598-023-42048-7}
+}</pre>
+      <div class="cite-row">
+        <button class="btn-quiet" type="button" id="copy-bibtex">Copy BibTeX</button>
+        <span class="cite-doi">doi: <a href="https://doi.org/10.1038/s41598-023-42048-7" target="_blank" rel="noopener">10.1038/s41598-023-42048-7</a></span>
       </div>
     </div>
   </div>
-  <div class="w3-row-padding" style="margin-top:64px">
-    <div class="w3-col l3 m6 w3-margin-bottom" style="margin:auto">
-      <div class="w3-card">
-        <img src="/assets/photo-ingerid.png" alt="Ingerid" style="width:50%; margin-left:23.5%">
-        <div class="w3-container w3-light-grey">
-          <h3>Ingerid Reinertsen</h3>
-          <p class="w3-opacity">Project manager</p>
-          <p>ingerid.reinertsen@sintef.no</p>
-<!--          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>-->
-        </div>
+</section>
+
+<section id="team">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Who's behind it</p>
+      <h2>Team</h2>
+      <p>Built by SINTEF Medical Image Analysis with clinical partners at St. Olavs Hospital and NTNU.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="avatar"><img src="assets/photo-david.png" alt="" onerror="this.parentElement.textContent='DB'"></div>
+        <div><h4>David Bouget</h4><p class="team-role">Lead developer, maintainer</p><p class="team-email"><a href="mailto:david.bouget@sintef.no">david.bouget@sintef.no</a></p></div>
+      </div>
+      <div class="team-card">
+        <div class="avatar"><img src="assets/photo-andre.png" alt="" onerror="this.parentElement.textContent='AP'"></div>
+        <div><h4>André Pedersen</h4><p class="team-role">DevOps engineer</p><p class="team-email"><a href="mailto:andre.pedersen@sintef.no">andre.pedersen@sintef.no</a></p></div>
+      </div>
+      <div class="team-card">
+        <div class="avatar"><img src="assets/photo-ingerid.png" alt="" onerror="this.parentElement.textContent='IR'"></div>
+        <div><h4>Ingerid Reinertsen</h4><p class="team-role">Project manager</p><p class="team-email"><a href="mailto:ingerid.reinertsen@sintef.no">ingerid.reinertsen@sintef.no</a></p></div>
+      </div>
+      <div class="team-card">
+        <div class="avatar"><img src="assets/photo-ole.png" alt="" onerror="this.parentElement.textContent='OS'"></div>
+        <div><h4>Ole Solheim</h4><p class="team-role">Neurosurgeon</p><p class="team-email"><a href="mailto:ole.solheim@ntnu.no">ole.solheim@ntnu.no</a></p></div>
+      </div>
+      <div class="team-card">
+        <div class="avatar"><img src="assets/photo-demah.png" alt="" onerror="this.parentElement.textContent='DA'"></div>
+        <div><h4>Demah Alsinan</h4><p class="team-role">Designer</p><p class="team-email"><a href="mailto:demah.alsinan@sintef.no">demah.alsinan@sintef.no</a></p></div>
+      </div>
+      <div class="team-card">
+        <div class="avatar"><img src="assets/photo-valeria.png" alt="" onerror="this.parentElement.textContent='VG'"></div>
+        <div><h4>Valeria Gaitan</h4><p class="team-role">Designer</p><p class="team-email"><a href="mailto:valeria.gaitan@sintef.no">valeria.gaitan@sintef.no</a></p></div>
       </div>
     </div>
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="/assets/photo-ole.png" alt="Ole" style="width:50%; margin-left:23.5%">
-        <div class="w3-container w3-light-grey">
-          <h3>Ole Solheim</h3>
-          <p class="w3-opacity">Neurosurgeon</p>
-          <p>ole.solheim@ntnu.no</p>
-<!--          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>-->
-        </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>Raidionics</h4>
+        <p>Trondheim, Norway.<br>Built by SINTEF Medical Image Analysis.</p>
+        <p>Feel free to get in touch for collaboration or data sharing.</p>
+      </div>
+      <div>
+        <h4>Project</h4>
+        <a href="https://github.com/raidionics">GitHub organization</a>
+        <a href="https://github.com/raidionics/Raidionics/wiki">Wiki and tutorials</a>
+        <a href="https://github.com/raidionics/Raidionics/issues">Report an issue</a>
+        <a href="https://github.com/raidionics/Raidionics/wiki/Frequently-Asked-Questions-(FAQ)">FAQ</a>
+        <a href="#cite">How to cite</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="mailto:david.bouget@sintef.no">david.bouget@sintef.no</a>
+        <a href="https://www.sintef.no/en/digital/departments-new/department-of-health-research/">SINTEF Health Research</a>
       </div>
     </div>
+    <p class="foot-legal">Raidionics is research software for research use only. It is not a certified medical device, carries no CE mark or FDA clearance, and its outputs must not be used as the sole basis for diagnosis or treatment decisions.</p>
+    <div class="foot-bottom">
+      <span>© Raidionics — SINTEF Medical Image Analysis</span>
+      <span>BSD-2-Clause licensed, open source</span>
     </div>
   </div>
-</div>
-
-<!-- Download Section -->
-<div class="w3-container" style="padding:128px 16px" id="download">
-  <h1 class="w3-center">Downloads</h1>
-  <p class="w3-center w3-large">Latest release (1.3.1)</p>
-  <div class="w3-row-padding w3-center" style="margin-top:64px">
-    <div class="w3-third">
-      <i class="fa fa-windows w3-margin-bottom w3-jumbo w3-center"></i>
-      <p class="w3-large">Windows</p>
-      <i><a href="https://github.com/raidionics/Raidionics/releases/download/v1.3.1/Raidionics-1.3.1-win.exe">Download for <strong>Windows</strong></a></i>
-    </div>
-    <div class="w3-third">
-      <i class="fa fa-apple w3-margin-bottom w3-jumbo"></i>
-      <p class="w3-large">macOS</p>
-      <i><a href="https://github.com/raidionics/Raidionics/releases/download/v1.3.1/Raidionics-1.3.1-macOS-14-15-arm64.pkg">Download for <strong>macOS (ARM processor)</strong></a></i> <br>
-      <i><a href="https://github.com/raidionics/Raidionics/releases/download/v1.3.1/Raidionics-1.3.1-macOS-13-arm64.pkg">Download for <strong>macOS-13 (ARM processor)</strong></a></i> <br>
-      <i><a href="https://github.com/raidionics/Raidionics/releases/download/v1.3.1/Raidionics-1.3.1-macOS-x86_64.pkg">Download for <strong>macOS (Intel processor)</strong></a></i>
-    </div>
-    <div class="w3-third">
-      <i class="fa fa-linux w3-margin-bottom w3-jumbo"></i>
-      <p class="w3-large">Linux</p>
-      <i><a href="https://github.com/raidionics/Raidionics/releases/download/v1.3.1/Raidionics-1.3.1-ubuntu.deb">Download for <strong>Linux</strong></a></i>
-    </div>
-  </div>
-  <p class="fa fa-warning w3-left w3-large" style="color:red;"> Disclaimer: For macOS users, look carefully to download the correct version (cf. <a href="https://github.com/raidionics/Raidionics/wiki/Frequently-Asked-Questions-(FAQ)">FAQ</a>).</p>
-</div>
-
-<!-- Examples Section -->
-<div class="w3-container w3-teal" style="padding:128px 16px" id="examples">
-  <h1 class="w3-center">Examples</h1>
-  <div class="w3-center" style="margin-top:64px">
-    <div class="w3-half">
-      <span class="w3-xlarge"><br> Stand-alone Raidionics </span>
-      <p class="raidionics"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
-      <p><a href="https://github.com/raidionics/Raidionics" class="w3-button w3-white w3-padding-large w3-large w3-opacity w3-hover-opacity-off">View on GitHub</a></p>
-    </div>
-    <div class="w3-half" style="padding-left: 20px">
-      <span class="w3-xlarge"><br> 3D Slicer plugin </span><br><br>
-      <p class="raidionics-slicer" ><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p><br>
-      <p><a href="https://github.com/raidionics/Raidionics-Slicer" class="w3-button w3-white w3-padding-large w3-large w3-opacity w3-hover-opacity-off">View on GitHub</a></p>
-    </div>
-  </div>
-</div>
-
-<!-- Modal for full size images on click-->
-<div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
-  <span class="w3-button w3-xxlarge w3-black w3-padding-large w3-display-topright" title="Close Modal Image">×</span>
-  <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
-    <img id="img01" class="w3-image">
-    <p id="caption" class="w3-opacity w3-large"></p>
-  </div>
-</div>
-
-<!-- Publications Section -->
-<div class="w3-container" style="padding:128px 16px" id="publications">
-  <h1 class="w3-center">Publications</h1>
-  <h2 class="w3-center w3-large">Raidionics research</h2>
-  <div class="w3-container">
-    <p><a href="https://www.nature.com/articles/s41598-023-42048-7" class="w3-large"> * <i><b>Raidionics: an open software for pre- and postoperative central nervous system tumor segmentation and standardized reporting.</b></i>  Bouget, D., Alsinan, D., Gaitan, V., Helland, R.H., Solheim, O., & Reinertsen, I. Nature Scientific Reports 13, 15570, 2023.</a></p>
-    <p><a href="https://www.frontiersin.org/articles/10.3389/fneur.2022.932219/full" class="w3-large"> * <i><b>Preoperative brain tumor imaging: models and software for segmentation and standardized reporting.</b></i>  Bouget, D., Pedersen, A., Jakola, A. S., Kavouridis, V., Emblem, K. E., Eijgelaar, R. S., ... & Reinertsen, I. Frontiers in neurology, 1500, 2022.</a></p>
-    <p><a href="https://www.frontiersin.org/articles/10.3389/fradi.2021.711514/full" class="w3-large"> * <i><b>Meningioma segmentation in T1-weighted MRI leveraging global context and attention mechanisms.</b></i>  Bouget, D., Pedersen, A., Hosainey, S. A. M., Solheim, O., & Reinertsen, I.. Frontiers in Radiology, 1, 711514, 2021.</a></p>
-    <p><a href="https://www.mdpi.com/2072-6694/13/18/4674" class="w3-large"> * <i><b>Glioblastoma surgery imaging–reporting and data system: Validation and performance of the automated segmentation task.</b></i>  Bouget, D., Eijgelaar, R. S., Pedersen, A., Kommers, I., Ardon, H., Barkhof, F., ... & Solheim, O.. Cancers, 13(18), 4674, 2021.</a></p>
-    <p><a href="https://www.mdpi.com/2072-6694/13/12/2854" class="w3-large"> * <i><b>Glioblastoma surgery imaging—reporting and data system: Standardized reporting of tumor volume, location, and resectability based on automated segmentations.</b></i>  Kommers, I., Bouget, D., Pedersen, A., Eijgelaar, R. S., Ardon, H., Barkhof, F., ... & De Witt Hamer, P. C.. Cancers, 13(12), 2854, 2021.</a></p>
-    <p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7995198/" class="w3-large"> * <i><b>Fast meningioma segmentation in T1-weighted magnetic resonance imaging volumes using a lightweight 3D deep learning architecture.</b></i>  Bouget, D., Pedersen, A., Hosainey, S. A. M., Vanel, J., Solheim, O., & Reinertsen, I. . Journal of Medical Imaging, 8(2), 024002-024002, 2021.</a></p>
-  </div>
-  <h2 class="w3-center w3-large">Related research</h2>
-  <div class="w3-container">
-    <p><a href="https://thejns.org/view/journals/j-neurosurg/142/5/article-p1298.xml" class="w3-large"> * <i><b>Prognostic value of manual versus automatic methods for assessing extents of resection and residual tumor volume in glioblastoma</b></i>  Majewska, P., Helland, R.H., ..., Bouget, D., & Solheim, O.. Journal of Neurosurgery, 142.5, 1298-1306, 2025.</a></p>
-    <p><a href="https://link.springer.com/chapter/10.1007/978-3-031-72089-5_27" class="w3-large"> * <i><b>Glioblastoma segmentation from early post-operative MRI: Challenges and clinical impact</b></i> Helland, R.H., Bouget, D., ..., Solheim, O., & Reinertsen, I. MICCAI, 2024.</a></p>
-    <p><a href="https://www.sciencedirect.com/science/article/pii/S2772529424000742" class="w3-large"> * <i><b>Incidence, risk factors, and clinical implications of postoperative blood in or near the resection cavity after glioma surgery</b></i>  Johnstad, C., Reinertsen, I., ..., Strand, P.S., & Solheim, O.. Brain and Spine, 4, 102818, 2024.</a></p>
-    <p><a href="https://link.springer.com/article/10.1007/s00701-024-06351-0" class="w3-large"> * <i><b>The prognostic importance of glioblastoma size and shape</b></i>  Johnstad, C., Reinertsen, I., ..., Jakola, A.S., & Solheim, O.. Acta Neurochirurgica, 166.1, 450, 2024.</a></p>
-    <p><a href="https://academic.oup.com/noa/article/6/1/vdad157/7484549" class="w3-large"> * <i><b>Growth dynamics of untreated meningiomas</b></i> Strand, P.S., Wågø, K.J., ..., Vanel, J.,& Solheim, O.. Neuro-Oncology Advances, 6.1, 2024.</a></p>
-    <p><a href="https://www.nature.com/articles/s41598-023-45456-x" class="w3-large"> * <i><b>Segmentation of glioblastomas in early post-operative multi-modal MRI with deep neural networks</b></i> Helland, R.H., Ferles, A., ..., Reinertsen, I., & Bouget, D.. Scientific reports, 13.1, 2023.</a></p>
-    <p><a href="https://link.springer.com/article/10.1007/s00701-022-05126-9" class="w3-large"> * <i><b>Pretreatment patient-reported cognitive function in patients with diffuse glioma</b></i>  Schei, S., Solheim, O., Salvesen, Ø., Hjermstad, M. J., Bouget, D., & Sagberg, L. M.. Acta Neurochirurgica, 164(3), 703-711, 2022.</a></p>
-  </div>
-</div>
-
-<!-- Contact Section -->
-<div class="w3-container w3-blue-gray" style="padding:128px 16px" id="contact">
-  <h3 class="w3-center">CONTACT</h3>
-  <p class="w3-center w3-large">Lets get in touch. Feel free to contact us for collaboration or data sharing.</p>
-  <div style="margin-top:48px">
-    <p><i class="fa fa-map-marker fa-fw w3-xxlarge w3-margin-right"></i> Trondheim, Norway</p>
-    <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: david.bouget@sintef.no</p>
-    <p><i class="fa fa-github fa-fw w3-xxlarge w3-margin-right"> </i> <a href="https://github.com/raidionics">https://github.com/raidionics</a></p>
-    <p><i class="fa fa-exclamation fa-fw w3-xxlarge w3-margin-right"> </i> <a href="https://github.com/raidionics/Raidionics/issues">Report issues or request features</a></p>
-    <br>
-  </div>
-</div>
-
-<!-- Footer -->
-<footer class="w3-center w3-black w3-padding-64">
-  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
-  <div class="w3-xlarge w3-section">
-    <i><a href="https://www.sintef.no/en/digital/departments-new/department-of-health-research/" class="fa fa-globe w3-hover-opacity" style="text-decoration:none;"></a></i>
-    <i><a href="https://github.com/raidionics" class="fa fa-github w3-hover-opacity" style="text-decoration:none;"></a></i>
-  </div>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
 </footer>
 
 <script>
-// Modal Image Gallery
-function onClick(element) {
-  document.getElementById("img01").src = element.src;
-  document.getElementById("modal01").style.display = "block";
-  var captionText = document.getElementById("caption");
-  captionText.innerHTML = element.alt;
-}
+  var navtoggle = document.getElementById('navtoggle');
+  var navlinks = document.getElementById('navlinks');
+  navtoggle.addEventListener('click', function(){
+    var isOpen = navlinks.classList.toggle('open');
+    navtoggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  navlinks.querySelectorAll('a').forEach(function(link){
+    link.addEventListener('click', function(){
+      navlinks.classList.remove('open');
+      navtoggle.setAttribute('aria-expanded', 'false');
+    });
+  });
 
+  document.querySelectorAll('[data-pub-toggle]').forEach(function(btn){
+    var col = document.getElementById(btn.getAttribute('data-pub-toggle'));
+    var hidden = col.querySelectorAll('.pub-item.is-extra').length;
+    btn.addEventListener('click', function(){
+      var open = col.classList.toggle('show-all');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? 'Show fewer' : 'Show ' + hidden + ' more';
+    });
+  });
 
-// Toggle between showing and hiding the sidebar when clicking the menu icon
-var mySidebar = document.getElementById("mySidebar");
-
-function w3_open() {
-  if (mySidebar.style.display === 'block') {
-    mySidebar.style.display = 'none';
-  } else {
-    mySidebar.style.display = 'block';
-  }
-}
-
-// Close the sidebar with the close button
-function w3_close() {
-    mySidebar.style.display = "none";
-}
+  var copyBtn = document.getElementById('copy-bibtex');
+  copyBtn.addEventListener('click', function(){
+    var text = document.getElementById('bibtex').textContent;
+    var done = function(){
+      copyBtn.textContent = 'Copied';
+      setTimeout(function(){ copyBtn.textContent = 'Copy BibTeX'; }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function(){ copyBtn.textContent = 'Press Ctrl+C'; });
+    } else {
+      var r = document.createRange();
+      r.selectNodeContents(document.getElementById('bibtex'));
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(r);
+      copyBtn.textContent = 'Press Ctrl+C';
+    }
+  });
 </script>
-
 </body>
 </html>
