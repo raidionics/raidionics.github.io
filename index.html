@@ -145,16 +145,30 @@
     .hero-visual [style*="rd-in"]{opacity:1 !important;}
   }
 
-  .stat-bar{
+  .hero .stat-bar{
     border-top:1px solid var(--line-dark);
-    display:grid;grid-template-columns:repeat(4,1fr);
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;
   }
-  .stat-bar div{
-    padding:22px 32px;border-right:1px solid var(--line-dark);
+  .stat{
+    padding:26px 28px 30px;border-right:1px solid var(--line-dark);
+    display:flex;flex-direction:column;gap:16px;
   }
-  .stat-bar div:last-child{border-right:none;}
-  .stat-num{font-family:'Fraunces',serif;font-size:26px;color:#fff;}
-  .stat-lbl{font-size:12.5px;color:#8592A0;margin-top:2px;}
+  .stat:first-child{padding-left:0;}
+  .stat:last-child{border-right:none;padding-right:0;}
+  .stat-glyph{height:34px;display:flex;align-items:flex-end;}
+  .stat-glyph svg{height:34px;width:auto;overflow:visible;}
+  .stat-num{
+    font-family:'Fraunces',serif;font-size:38px;line-height:0.85;color:#fff;
+    display:flex;align-items:baseline;gap:9px;
+  }
+  .stat-num em{
+    font-family:'IBM Plex Mono',monospace;font-style:normal;
+    font-size:12.5px;color:#C3CCD6;line-height:1.2;
+  }
+  .stat-sub{
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.9px;
+    text-transform:uppercase;color:#6E7C8C;line-height:1.5;
+  }
 
   /* capabilities */
   .section-head{max-width:600px;margin-bottom:48px;}
@@ -479,12 +493,63 @@
     </div>
   </div>
   <div class="stat-bar wrap" style="padding-left:0;padding-right:0;max-width:1120px;">
-    <div><div class="stat-num">4</div><div class="stat-lbl">principal CNS tumor types supported</div></div>
-    <div><div class="stat-num">16</div><div class="stat-lbl">partner hospitals</div></div>
-    <div><div class="stat-num">3</div><div class="stat-lbl">operating systems</div></div>
-    <div><div class="stat-num">15+</div><div class="stat-lbl">peer-reviewed publications</div></div>
+    <div class="stat">
+      <div class="stat-glyph"><svg viewBox="0 0 78 34" role="img" aria-hidden="true">
+        <g fill="var(--ink-2)" stroke="#2F4059" stroke-width="1.1">
+          <circle cx="10" cy="23" r="9.4"/><circle cx="31.7" cy="23" r="9.4"/><circle cx="53.4" cy="23" r="9.4"/><circle cx="75.1" cy="23" r="9.4"/>
+        </g>
+        <g fill="var(--coral)" fill-opacity="0.9">
+          <circle cx="12.8" cy="19.6" r="3"/><ellipse cx="28.6" cy="25.6" rx="3.9" ry="2.5"/><circle cx="53.4" cy="19" r="2.3"/><ellipse cx="77.6" cy="25.4" rx="2.5" ry="3.7"/>
+        </g>
+      </svg></div>
+      <div class="stat-num">4 <em>CNS tumor<br>types</em></div>
+      <div class="stat-sub">IDH-wildtype and IDH-mutant glioma<br>Meningioma · Metastasis</div>
+    </div>
+    <div class="stat">
+      <div class="stat-glyph"><svg viewBox="0 0 78 34" role="img" aria-hidden="true">
+        <g fill="var(--teal-bright)">
+          <circle cx="5" cy="12" r="2.4"/><circle cx="19" cy="12" r="2.4"/><circle cx="33" cy="12" r="2.4"/><circle cx="47" cy="12" r="2.4"/><circle cx="61" cy="12" r="2.4"/><circle cx="75" cy="12" r="2.4"/><circle cx="5" cy="25" r="2.4"/><circle cx="19" cy="25" r="2.4"/><circle cx="33" cy="25" r="2.4"/><circle cx="47" cy="25" r="2.4"/><circle cx="61" cy="25" r="2.4"/><circle cx="75" cy="25" r="2.4"/>
+        </g>
+        <g fill="#2F4059">
+          <circle cx="5" cy="3" r="2.4"/><circle cx="19" cy="3" r="2.4"/><circle cx="33" cy="3" r="2.4"/><circle cx="47" cy="3" r="2.4"/>
+        </g>
+      </svg></div>
+      <div class="stat-num">16 <em>partner<br>hospitals</em></div>
+      <div class="stat-sub">Contributing training data across<br>Europe and the United States</div>
+    </div>
+    <div class="stat">
+      <div class="stat-glyph"><svg viewBox="0 0 78 34" role="img" aria-hidden="true">
+        <g fill="none" stroke="#3A4A63" stroke-width="1.1">
+          <rect x="0.6" y="6.6" width="23" height="20" rx="2"/><rect x="27.6" y="6.6" width="23" height="20" rx="2"/><rect x="54.6" y="6.6" width="23" height="20" rx="2"/>
+        </g>
+        <g fill="var(--teal-bright)">
+          <rect x="0.6" y="6.6" width="23" height="3.6" rx="1.6"/><rect x="27.6" y="6.6" width="23" height="3.6" rx="1.6"/><rect x="54.6" y="6.6" width="23" height="3.6" rx="1.6"/>
+        </g>
+        <g fill="#2F4059">
+          <rect x="4" y="14" width="12" height="1.8"/><rect x="31" y="14" width="12" height="1.8"/><rect x="58" y="14" width="12" height="1.8"/>
+          <rect x="4" y="19" width="7" height="1.8"/><rect x="31" y="19" width="7" height="1.8"/><rect x="58" y="19" width="7" height="1.8"/>
+        </g>
+      </svg></div>
+      <div class="stat-num">3 <em>operating<br>systems</em></div>
+      <div class="stat-sub">Windows · macOS · Linux<br>Runs entirely on your machine</div>
+    </div>
+    <div class="stat">
+      <div class="stat-glyph"><svg viewBox="0 0 78 34" role="img" aria-hidden="true">
+        <g fill="none" stroke="#2F4059" stroke-width="1.1">
+          <rect x="8.6" y="0.6" width="40" height="28" rx="1.5"/><rect x="4.6" y="3.6" width="40" height="28" rx="1.5"/>
+        </g>
+        <rect x="0.6" y="6.6" width="40" height="26" rx="1.5" fill="var(--ink-2)" stroke="#3A4A63" stroke-width="1.1"/>
+        <rect x="5" y="11" width="18" height="2" fill="var(--teal-bright)"/>
+        <g fill="#2F4059">
+          <rect x="5" y="17" width="31" height="1.6"/><rect x="5" y="21" width="31" height="1.6"/><rect x="5" y="25" width="20" height="1.6"/>
+        </g>
+      </svg></div>
+      <div class="stat-num">16+ <em>peer-reviewed<br>papers</em></div>
+      <div class="stat-sub">Core and related<br>research published in full</div>
+    </div>
   </div>
 </div>
+
 
 <section id="about">
   <div class="wrap">
@@ -750,22 +815,22 @@
   <div class="wrap">
     <p class="trust-label">Model training data provided by partner hospitals across Europe and the US</p>
     <div class="trust-grid">
-      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Northwest Clinics</div><div class="t-loc">Alkmaar, Netherlands</div></div></div>
-      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Amsterdam University Medical Centers</div><div class="t-loc">Amsterdam, Netherlands</div></div></div>
-      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">University Medical Center Groningen</div><div class="t-loc">Groningen, Netherlands</div></div></div>
-      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Medical Center Haaglanden</div><div class="t-loc">The Hague, Netherlands</div></div></div>
-      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Humanitas Research Hospital</div><div class="t-loc">Milan, Italy</div></div></div>
-      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Hôpital Lariboisière</div><div class="t-loc">Paris, France</div></div></div>
-      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">UCSF Medical Center</div><div class="t-loc">San Francisco, United States</div></div></div>
-      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Medical Center Slotervaart</div><div class="t-loc">Amsterdam, Netherlands</div></div></div>
-      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">St Elisabeth Hospital</div><div class="t-loc">Tilburg, Netherlands</div></div></div>
-      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">University Medical Center Utrecht</div><div class="t-loc">Utrecht, Netherlands</div></div></div>
-      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Medical University of Vienna</div><div class="t-loc">Vienna, Austria</div></div></div>
-      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Isala Hospital</div><div class="t-loc">Zwolle, Netherlands</div></div></div>
-      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">St. Olavs Hospital</div><div class="t-loc">Trondheim, Norway</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">St. Olavs hospital</div><div class="t-loc">Trondheim, Norway</div></div></div>
       <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Sahlgrenska University Hospital</div><div class="t-loc">Gothenburg, Sweden</div></div></div>
       <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Brigham and Women's Hospital</div><div class="t-loc">Boston, United States</div></div></div>
       <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Oslo University Hospital</div><div class="t-loc">Oslo, Norway</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Amsterdam University Medical Centers</div><div class="t-loc">Amsterdam, The Netherlands</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Twee Steden Hospital</div><div class="t-loc">Tilburg, Netherlands</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Humanitas Research Hospital</div><div class="t-loc">Milan, Italy</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">UCSF Medical Center</div><div class="t-loc">San Francisco, United States</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Medical University of Vienna</div><div class="t-loc">Vienna, Austria</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Northwest Clinics</div><div class="t-loc">Alkmaar, Netherlands</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Medical Center Haaglanden</div><div class="t-loc">The Hague, The Netherlands</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Hôpital Lariboisière</div><div class="t-loc">Paris, France</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">University Medical Center Utrecht</div><div class="t-loc">Utrecht, The Netherlands</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">Isala Hospital</div><div class="t-loc">Zwolle, The Netherlands</div></div></div>
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">University Medical Center Groningen</div><div class="t-loc">Groningen, The Netherlands</div></div></div>    
+      <div class="trust-item"><i class="fa fa-hospital-o" aria-hidden="true"></i><div><div class="t-name">The Netherlands Cancer Institute</div><div class="t-loc">Amsterdam, The Netherlands</div></div></div>
     </div>
   </div>
 </div>
